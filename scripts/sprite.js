@@ -34,7 +34,7 @@ class CircleSprite extends Sprite {
     }
 
     draw() {
-        this.setColor(this.color);
+        super.setColor(this.color);
         this.context.beginPath();
         this.context.arc(this.circle.pos.x, this.circle.pos.y, this.circle.rad, 0, Math.PI * 2.0);
         this.context.fill();

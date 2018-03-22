@@ -29,8 +29,10 @@ class Rectangle extends Body
 
 class Physics
 {
-  static collide_ss(s, s)
+  static collide_ss(s1, s2)
   {
+    if(s1.pos.sub(s2.pos).norm() > s1.rad + s2.rad)
+      return {s1, s2};
 
   }
   
@@ -39,7 +41,7 @@ class Physics
 
   }
   
-  static collide_rr(r, r)
+  static collide_rr(r1, r2)
   {
 
   }

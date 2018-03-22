@@ -27,7 +27,6 @@ class Vector
   //  Vector/Scalar disambiguation
   mul(e)    { return e instanceof Vector ? this.mul_v(e) : this.mul_s(e) }
   div(e)    { return e instanceof Vector ? this.div_v(e) : this.div_s(e) }
-  
 
   /**
    * Stuff

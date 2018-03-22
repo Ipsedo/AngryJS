@@ -1,4 +1,5 @@
 class Sprite {
+
     constructor(context) {
         this.context = context;
     }
@@ -7,24 +8,56 @@ class Sprite {
         this.context.fillStyle = "rgb(" + color[0] + "," + color[1] + "," + color[2] + ")";
     }
 
-    /**
-     *
-     * @param color rgb array
-     * @param rect Rect instance
-     */
-    fillRect(color, rect) {
-        if (!rect instanceof Rectangle)
-            alert("Not a Rectangle instance !");
-        this.setColor(color);
-        this.context.fillRect(rect.pos.x, rect.pos.y, rect.dim.x, rect.dim.y);
+    draw() { console.log("Empty shape !"); }
+}
+
+class RectSprite extends Sprite {
+
+    constructor(context, rect, color) {
+        super(context);
+        this.rect = rect;
+        this.color = color;
     }
 
-    fillCircle(color, circle) {
-        this.setColor(color);
+    draw() {
+        super.setColor(this.color);
+        this.context.fillRect(this.rect.pos.x, this.rect.pos.y, this.rect.dim.x, this.rect.dim.y);
+    }
+}
+
+class CircleSprite extends Sprite {
+
+    constructor(context, circle, color) {
+        super(context);
+        this.circle = circle;
+        this.color = color;
+    }
+
+    draw() {
+        this.setColor(this.color);
         this.context.beginPath();
-        this.context.arc(circle.pos.x, circle.pos.y, circle.rad, 0, Math.PI * 2.0);
+        this.context.arc(this.circle.pos.x, this.circle.pos.y, this.circle.rad, 0, Math.PI * 2.0);
         this.context.fill();
     }
+}
 
+class ImageRectSprite extends Sprite {
 
+    constructor(context, rect, imageURI) {
+        super(context);
+        this.isReady = false;
+        this.rect = rect;
+        this.img = new Image();
+        let that = this;
+        this.img.onload = function(){
+            that.isReady = true;
+        };
+        this.img.src = imageURI;
+    }
+
+    draw() {
+        if (!this.isReady)
+            return;
+        this.context.drawImage(this.img, this.rect.pos.x, this.rect.pos.y, this.rect.dim.x, this.rect.dim.y);
+    }
 }

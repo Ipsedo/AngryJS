@@ -1,26 +1,27 @@
-
 class Body
 {
-  constructor(mass, pos)
+  constructor(mass, pos, friction)
   {
-    this.pos = pos;
+    this.pos      = pos;
+    this.mass     = mass;
+    this.friction = friction;
   }
 }
 
-class Sphere : Body
+class Sphere extends Body
 {
-  constructor(mass, pos, rad) 
+  constructor(mass, pos, friction, rad)
   {
-    super(mass, pos)
+    super(mass, pos, friction);
     this.rad = rad;
   }
 }
 
-class Rectangle : Body
+class Rectangle extends Body
 {
-  constructor(mass, pos, dim)
+  constructor(mass, pos, friction, dim)
   {
-    super(mass, pos)
+    super(mass, pos, friction);
     this.dim = dim;
   }
 }
@@ -28,11 +29,29 @@ class Rectangle : Body
 
 class Physics
 {
-  collide_sr
-  collide_ss
-
-  collide(a, b)
+  static collide_ss(s, s)
   {
 
+  }
+  
+  static collide_rs(r, s)
+  {
+
+  }
+  
+  static collide_rr(r, r)
+  {
+
+  }
+  
+  static collide(a, b)    {
+    if(a instanceof Sphere && b instanceof Sphere)
+      return this.collide_ss(a, b);
+    if(a instanceof Rectangle && b instanceof Rectangle)
+      return this.collide_rr(a, b);
+    if(a instanceof Sphere && b instanceof Rectangle)
+      //return this.collide_rs(a, b); TODO
+    if(a instanceof Rectangle && b instanceof Sphere)
+      return this.collide_rs(a, b);
   }
 }

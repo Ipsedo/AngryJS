@@ -1,8 +1,8 @@
 class Game
 {
-  constructor(canvas, walls, entities, onLose = (() => {}))
+  constructor(context, walls, entities, onLose = (() => {}))
   {
-    this.canvas   = canvas;
+    this.context   = context;
     this.walls    = walls;
     this.entities = entities;
     this.onLose   = onLose;

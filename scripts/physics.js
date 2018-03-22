@@ -24,6 +24,15 @@ class Rectangle extends Body
     super(mass, pos, friction);
     this.dim = dim;
   }
+
+  minkowksiDiff(otherRect) {
+    let vec = this.pos.sub(otherRect.pos).sub(new Vector(otherRect.dim.x, otherRect.dim.y));
+    return new Rectangle(0.0, vec, 0.0, new Vector(this.dim.x + otherRect.dim.x, this.dim.y + otherRect.dim.y));
+  }
+
+  hasOrigin() {
+    return this.pos.x <= 0 && this.pos.y <= 0 && this.pos.x + this.dim.x >= 0 && this.pos.y + this.dim.y >= 0;
+  }
 }
 
 
@@ -33,7 +42,7 @@ class Physics
   {
     if(s1.pos.sub(s2.pos).norm() > s1.rad + s2.rad)
       return {s1, s2};
-
+    return null; // Renvoie undefined sinon
   }
   
   static collide_rs(r, s)
@@ -43,7 +52,9 @@ class Physics
   
   static collide_rr(r1, r2)
   {
-
+      if (r1.minkowksiDiff(r2).hasOrigin())
+        return {r1, r2};
+      return null;
   }
   
   static collide(a, b)    {

@@ -45,19 +45,12 @@ class ImageRectSprite extends Sprite {
 
     constructor(context, rect, imageURI) {
         super(context);
-        this.isReady = false;
         this.rect = rect;
         this.img = new Image();
-        let that = this;
-        this.img.onload = function(){
-            that.isReady = true;
-        };
         this.img.src = imageURI;
     }
 
     draw() {
-        if (!this.isReady)
-            return;
         this.context.drawImage(this.img, this.rect.pos.x, this.rect.pos.y, this.rect.dim.x, this.rect.dim.y);
     }
 }

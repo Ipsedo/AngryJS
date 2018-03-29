@@ -54,3 +54,17 @@ class ImageRectSprite extends Sprite {
         this.context.drawImage(this.img, this.rect.pos.x, this.rect.pos.y, this.rect.dim.x, this.rect.dim.y);
     }
 }
+
+class Point extends Sprite {
+    constructor(context, particule, color) {
+        super(context);
+        this.particule = particule;
+        this.color  = color;
+    }
+
+    draw() {
+        super.setColor(this.color);
+        this.context.fillRect(this.particule.pos.x, this.particule.pos.y, 1, 1);
+    }
+
+}

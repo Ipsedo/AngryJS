@@ -13,6 +13,9 @@ class Game
     this.explosion = [];
 
     this.onLose   = onLose;
+
+    this.firstFrame = true;
+    this.lastTime = Date.now();
   }
 
   start()
@@ -20,10 +23,10 @@ class Game
     //  On amorce le jeu en appelant start
 
       let r1 = new Rectangle(1, Vector.fill(0), Vector.fill(100));
-      let s1 = new RectSprite(this.context, r1, [255,0,0]);
+      let s1 = new RectSprite(this.context, r1, [255, 0, 0]);
       this.entities.push(new Entity(r1, s1, 10));
 
-      let r2 = new Rectangle(1, Vector.fill(100), Vector.fill(100));
+      let r2 = new Rectangle(1, Vector.fill(100), Vector.fill(100), new Vector(0.1, 0.0));
       let s2 = new RectSprite(this.context, r2, [255, 0, 0]);
       this.entities.push(new Entity(r2, s2, 100));
 
@@ -44,18 +47,23 @@ class Game
           } else {
               alert("Unrecognized Body !");
           }
-          let ex = new Explosion(that.context, middle, e.sprite.color, 10);
+          // TODO intensité explosion selon masse et taille
+          let ex = new Explosion(that.context, middle, e.sprite.color, 20);
           that.explosion.push(ex);
         }
       });
       this.entities = this.entities.filter((e) => e.isAlive());
+      this.explosion = this.explosion.filter((e) => e.isAlive());
   }
 
     /**
      * Fonction d'animation et de collision
      */
-  anime() {
-      this.entities.forEach((e) => e.body.pos.x += 1);
+  anime(timeDelta) {
+      // TODO mouvements selon le delta de temps depuis le dernier appel
+      this.entities.forEach((e) => {
+          e.body.pos = e.body.pos.add(e.body.vel.mul(timeDelta));
+      });
       this.entities.forEach((e) => e.life--);
       this.explosion.forEach((e) => e.update());
       //TODO collision
@@ -67,9 +75,17 @@ class Game
      * 3) Dessiner le jeu
      */
   update() {
+      if (this.firstFrame) {
+          this.lastTime = Date.now();
+          this.firstFrame = false;
+      }
+
       this.removeDeadEntity();
-      this.anime();
+      this.anime(Date.now() - this.lastTime);
       this.render();
+
+      this.lastTime = Date.now();
+
       requestAnimationFrame(this.update.bind(this));
   }
 

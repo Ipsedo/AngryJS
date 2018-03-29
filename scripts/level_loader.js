@@ -66,7 +66,7 @@ class LevelLoader {
             let entities = that.parseJSON(xhr.responseText);
             onLoad(entities);
         });
-        xhr.open("POST", levelFileName);
+        xhr.open("GET", levelFileName);
         xhr.send();
     }
 

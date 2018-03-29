@@ -36,12 +36,13 @@ class Game
   removeDeadEntity() {
       let that = this;
       this.entities.forEach((e) => { if (!e.isAlive()) {
-          console.log(e);
           let middle;
           if (e.body instanceof Sphere) {
               middle = e.body.pos;
-          } else {
+          } else if (e.body instanceof Rectangle) {
               middle = e.body.pos.add(e.body.dim.div(2));
+          } else {
+              alert("Unrecognized Body !");
           }
           let ex = new Explosion(that.context, middle, e.sprite.color, 10);
           that.explosion.push(ex);

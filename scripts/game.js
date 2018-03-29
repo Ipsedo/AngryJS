@@ -19,7 +19,7 @@ class Game
     //  On amorce le jeu en appelant start
 
       let r1 = new Rectangle(1, Vector.fill(0), 1, Vector.fill(100));
-      let s1 = new RectSprite(this.context, r, [255,0,0]);
+      let s1 = new RectSprite(this.context, r1, [255,0,0]);
       this.entities.push(new Entity(r1, s1, 10));
 
       requestAnimationFrame(this.update.bind(this));

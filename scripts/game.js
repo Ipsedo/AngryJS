@@ -19,11 +19,11 @@ class Game
   {
     //  On amorce le jeu en appelant start
 
-      let r1 = new Rectangle(1, Vector.fill(0), 1, Vector.fill(100));
+      let r1 = new Rectangle(1, Vector.fill(0), Vector.fill(100));
       let s1 = new RectSprite(this.context, r1, [255,0,0]);
       this.entities.push(new Entity(r1, s1, 10));
 
-      let r2 = new Rectangle(1, Vector.fill(100), 1, Vector.fill(100));
+      let r2 = new Rectangle(1, Vector.fill(100), Vector.fill(100));
       let s2 = new RectSprite(this.context, r2, [255, 0, 0]);
       this.entities.push(new Entity(r2, s2, 100));
 

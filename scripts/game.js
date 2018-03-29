@@ -1,14 +1,13 @@
 class Game
 {
     // Passer width et height du canvas + context ou juste canvas ?
-  constructor(canvas, walls, entities, onLose = (() => {}))
+  constructor(canvas, entities, onLose = (() => {}))
   {
     canvas.style.backgroundColor = "#AAAAAA";
     this.context   = canvas.getContext("2d");
     this.windowW = canvas.width;
     this.windowH = canvas.height;
 
-    this.walls    = walls;
     this.entities = entities;
     this.explosion = [];
 
@@ -44,10 +43,16 @@ class Game
       let wall_left_sprite = new RectSprite(this.context, wall_left_body, [0, 0, 0]);
       let wall_rigth_sprite = new RectSprite(this.context, wall_right_body, [0, 0, 0]);
 
-      this.walls.push(new Entity(wall_up_body, wall_up_sprite, Infinity));
-      this.walls.push(new Entity(wall_down_body, wall_down_sprite, Infinity));
-      this.walls.push(new Entity(wall_left_body, wall_left_sprite, Infinity));
-      this.walls.push(new Entity(wall_right_body, wall_rigth_sprite, Infinity));
+      this.entities.push(new Entity(wall_up_body, wall_up_sprite, Infinity));
+      this.entities.push(new Entity(wall_down_body, wall_down_sprite, Infinity));
+      this.entities.push(new Entity(wall_left_body, wall_left_sprite, Infinity));
+      this.entities.push(new Entity(wall_right_body, wall_rigth_sprite, Infinity));
+
+      /*let levelLoader = new LevelLoader(this.context);
+      let that = this;
+      levelLoader.load("../res/level.json", (e) => {
+          that.entities = e;
+      });*/
 
       requestAnimationFrame(this.update.bind(this));
   }
@@ -85,11 +90,10 @@ class Game
       });
       //this.entities.forEach((e) => e.life--);
       this.explosion.forEach((e) => e.update());
-      //TODO collision
-      let toCollide = this.entities.concat(this.walls);
-      for (let i = 0; i < toCollide.length; i++) {
-        for (let j = i + 1; j < toCollide.length; j++) {
-            Physics.collide(toCollide[i].body, toCollide[j].body);
+
+      for (let i = 0; i < this.entities.length; i++) {
+        for (let j = i + 1; j < this.entities.length; j++) {
+            Physics.collide(this.entities[i].body, this.entities[j].body);
         }
       }
   }
@@ -120,7 +124,6 @@ class Game
   render() {
       this.context.clearRect(0, 0, this.windowW, this.windowH);
 
-      this.walls.forEach((w) => w.sprite.draw());
       this.entities.forEach((e) => e.sprite.draw());
       this.explosion.forEach((e) => e.draw());
   }

@@ -1,14 +1,18 @@
 class Particule {
+
+    static get VelocityDecrease() { return 8e-1; }
+
     constructor(pos, intensity) {
         let angle = Math.random() * Math.PI * 2;
         this.velocity = new Vector(Math.cos(angle), Math.sin(angle));
         this.velocity = this.velocity.mul(intensity);
         this.pos = pos;
-        this.life = (1 + Math.random()) * 20;
+        this.life = Math.random() * 20;
     }
 
     move() {
         this.pos = this.pos.add(this.velocity);
+        this.velocity = this.velocity.mul(Particule.VelocityDecrease);
     }
 
     isAlive() {
@@ -17,6 +21,7 @@ class Particule {
 }
 
 class Explosion {
+
     static get MinPointsNumber() { return 50; };
 
     constructor(context, pos, color, intensity) {
@@ -39,5 +44,9 @@ class Explosion {
         this.particules = this.particules.filter((p) => p.p.isAlive());
         this.particules.forEach((p) => p.p.life--);
         this.particules.forEach((p) => p.p.move());
+    }
+
+    isAlive() {
+        return this.particules.length > 0;
     }
 }

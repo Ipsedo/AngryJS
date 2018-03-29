@@ -141,7 +141,7 @@ class LevelLoader {
         entity_arr.forEach((e) => {
             let new_e = this.parseEntity(e);
             entities.push(new_e);
-        })
+        });
         return entities;
     }
 }

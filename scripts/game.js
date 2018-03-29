@@ -10,6 +10,7 @@ class Game
 
     this.walls    = walls;
     this.entities = entities;
+    this.explosion = [];
 
     this.onLose   = onLose;
   }
@@ -18,9 +19,13 @@ class Game
   {
     //  On amorce le jeu en appelant start
 
-      let r1 = new Rectangle(1, Vector.fill(0), 1, Vector.fill(100));
+      let r1 = new Rectangle(1, Vector.fill(0), Vector.fill(100));
       let s1 = new RectSprite(this.context, r1, [255,0,0]);
       this.entities.push(new Entity(r1, s1, 10));
+
+      let r2 = new Rectangle(1, Vector.fill(100), Vector.fill(100));
+      let s2 = new RectSprite(this.context, r2, [255, 0, 0]);
+      this.entities.push(new Entity(r2, s2, 100));
 
       requestAnimationFrame(this.update.bind(this));
   }
@@ -29,7 +34,20 @@ class Game
      * Supprime les entités mortes
      */
   removeDeadEntity() {
-      this.entities.filter((e) => e.isAlive());
+      let that = this;
+      this.entities.forEach((e) => { if (!e.isAlive()) {
+          console.log(e);
+          let middle;
+          if (e.body instanceof Sphere) {
+              middle = e.body.pos;
+          } else {
+              middle = e.body.pos.add(e.body.dim.div(2));
+          }
+          let ex = new Explosion(that.context, middle, e.sprite.color, 10);
+          that.explosion.push(ex);
+        }
+      });
+      this.entities = this.entities.filter((e) => e.isAlive());
   }
 
     /**
@@ -37,6 +55,8 @@ class Game
      */
   anime() {
       this.entities.forEach((e) => e.body.pos.x += 1);
+      this.entities.forEach((e) => e.life--);
+      this.explosion.forEach((e) => e.update());
       //TODO collision
   }
 
@@ -60,6 +80,7 @@ class Game
 
       this.walls.forEach((w) => w.draw());
       this.entities.forEach((e) => e.sprite.draw());
+      this.explosion.forEach((e) => e.draw());
   }
 }
 

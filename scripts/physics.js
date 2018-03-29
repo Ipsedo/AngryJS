@@ -11,7 +11,7 @@ class Body
     this.isStatic = isStatic;
   }
 
-  static elasticity = 1.;
+  static get elasticity() {return 1.; };
 }
 
 class Sphere extends Body
@@ -38,7 +38,7 @@ class Rectangle extends Body
   minkowksiDiff(r)
   {
     let vec = this.pos.sub(r.pos).sub(dim);
-    return { pos: vec, dim: this.dim.add(r.dim); };
+    return { pos: vec, dim: this.dim.add(r.dim) };
   }
 }
 
@@ -136,6 +136,6 @@ class Physics
       return this.collide_rs(a, b);
     
     if(a instanceof Sphere && b instanceof Rectangle)
-      { {na, nb} = this.collide_rs(a, b); return {nb, na}; }
+      { let {na, nb} = this.collide_rs(a, b); return {nb, na}; }
   }
 }

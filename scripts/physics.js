@@ -1,10 +1,11 @@
 class Body
 {
-  constructor(mass, pos, friction)
+  constructor(mass, pos, friction, static = false)
   {
     this.pos      = pos;
     this.mass     = mass;
     this.friction = friction;
+    this.static   = static;
   }
 }
 
@@ -24,6 +25,18 @@ class Rectangle extends Body
     super(mass, pos, friction);
     this.dim = dim;
   }
+
+  minkowksiDiff(r) {
+    let vec = this.pos.sub(r.pos).sub(dim);
+    return {vec , new Vector(this.dim.x + r.dim.x, this.dim.y + r.dim.y) };
+  }
+
+  hasOrigin() {
+    return  this.pos.x <= 0 
+        &&  this.pos.y <= 0
+        &&  this.pos.x + this.dim.x >= 0
+        &&  this.pos.y + this.dim.y >= 0;
+  }
 }
 
 
@@ -34,19 +47,23 @@ class Physics
     if(s1.pos.sub(s2.pos).norm() > s1.rad + s2.rad)
       return {s1, s2};
     //  TODO
+    return {s1, s2};
   }
   
   static collide_rs(r, s)
   {
-
+    return null;  //  TEMP
   }
   
   static collide_rr(r1, r2)
   {
-
+      if (r1.minkowksiDiff(r2).hasOrigin()) return {r1, r2};
+      return null;  //  TEMP
   }
   
   static collide(a, b) {
+    return null;
+
     if(a instanceof Sphere && b instanceof Sphere)
       return this.collide_ss(a, b);
     

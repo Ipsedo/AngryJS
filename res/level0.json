@@ -21,5 +21,125 @@
     },
 
     "life" : 10
+  },
+
+  {
+    "body" : {
+      "infos" : {
+        "mass" : 10,
+        "pos"  : [500, 100],
+        "vel"  : [-0.25, -0.2],
+        "isStatic" : false
+      },
+
+      "additional_info" : {
+        "isRect" : true,
+        "rad"    : null,
+        "dim"    : [100, 100]
+      }
+    },
+
+    "sprite" : {
+      "img_uri" : null,
+      "color"   : [255, 0, 0]
+    },
+
+    "life" : 10
+  },
+
+  {
+    "body" : {
+      "infos" : {
+        "mass" : null,
+        "pos"  : [0, -10],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : false
+      },
+
+      "additional_info" : {
+        "isRect" : true,
+        "rad"    : null,
+        "dim"    : [1024, 20]
+      }
+    },
+
+    "sprite" : {
+      "img_uri" : null,
+      "color"   : [0, 0, 0]
+    },
+
+    "life" : 10
+  },
+
+  {
+    "body" : {
+      "infos" : {
+        "mass" : null,
+        "pos"  : [0, 758],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : false
+      },
+
+      "additional_info" : {
+        "isRect" : true,
+        "rad"    : null,
+        "dim"    : [1024, 20]
+      }
+    },
+
+    "sprite" : {
+      "img_uri" : null,
+      "color"   : [0, 0, 0]
+    },
+
+    "life" : 10
+  },
+
+  {
+    "body" : {
+      "infos" : {
+        "mass" : null,
+        "pos"  : [-10, 10],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : false
+      },
+
+      "additional_info" : {
+        "isRect" : true,
+        "rad"    : null,
+        "dim"    : [20, 748]
+      }
+    },
+
+    "sprite" : {
+      "img_uri" : null,
+      "color"   : [0, 0, 0]
+    },
+
+    "life" : 10
+  },
+
+  {
+    "body" : {
+      "infos" : {
+        "mass" : null,
+        "pos"  : [1014, 10],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : false
+      },
+
+      "additional_info" : {
+        "isRect" : true,
+        "rad"    : null,
+        "dim"    : [20, 748]
+      }
+    },
+
+    "sprite" : {
+      "img_uri" : null,
+      "color"   : [0, 0, 0]
+    },
+
+    "life" : 10
   }
 ]

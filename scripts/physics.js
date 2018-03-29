@@ -1,15 +1,14 @@
 class Body
 {
   constructor ( mass , pos
-              
               , vel = new Vector(0, 0)
-              , static = false
+              , isStatic = false
               )
   {
-    this.pos        = pos;
-    this.vel        = vel;
-    this.mass       = mass;
-    this.static     = static;
+    this.pos    = pos;
+    this.vel    = vel;
+    this.mass   = mass;
+    this.isStatic = isStatic;
   }
 
   static elasticity = 1.;
@@ -18,31 +17,23 @@ class Body
 class Sphere extends Body
 {
   constructor ( mass , pos
-              
               , rad
-
               , vel = new Vector(0, 0)
-              , static = false
+              , isStatic = false
               )
-  {
-    super(mass, pos, vel, elasticity);
-    this.rad = rad;
-  }
+  { super(mass, pos, vel, isStatic);
+    this.rad = rad; }
 }
 
 class Rectangle extends Body
 {
   constructor ( mass , pos
-              
               , dim
-              
               , vel = new Vector(0, 0)
-              , static = false
+              , isStatic = false
               )
-  {
-    super(mass, pos, vel, elasticity);
-    this.dim = dim;
-  }
+  { super(mass, pos, vel, isStatic);
+    this.dim = dim; }
 
   minkowksiDiff(r)
   {
@@ -94,13 +85,12 @@ class Physics
     else if (norm_l < norm_u && norm_l < norm_d && norm_l < norm_r) n = left;
     else n = right;
   
-    let nA = ra.velocity.norm() / ( ra.velocity.norm() + rb.velocity.norm() );
-    let nB = rb.velocity.norm() / ( ra.velocity.norm() + rb.velocity.norm() );
+    let nA = ra.vel.norm() / ( ra.vel.norm() + rb.vel.norm() );
+    let nB = rb.vel.norm() / ( ra.vel.norm() + rb.vel.norm() );
   
-    if (ra.velocity.norm() == rb.velocity.norm())
+    if (ra.vel.norm() == rb.vel.norm())
     {
-      if (ra.mass === Infinity && rb.mass === Infinity)
-        return null;
+      if (ra.mass == Infinity && rb.mass == Infinity) return null;
       
       if (ra.mass > rb.mass)
         { nA = 0; nB = 1; }
@@ -115,12 +105,12 @@ class Physics
   
     n = n.normalize();
   
-    let rel_speed = ra.velocity.sub(rb.velocity);
+    let rel_speed = ra.vel.sub(rb.vel);
     
     const e = Body.elasticity;
   
-    let vC = n.mult(j * ra.invMass).add(ra.velocity);
-    let vB = rb.velocity.sub(n.mult(j * rb.invMass));
+    let vC = n.mult(j * ra.invMass).add(ra.vel);
+    let vB = rb.vel.sub(n.mult(j * rb.invMass));
   
     return { velocity1 : vC , velocity2: vB };
   }

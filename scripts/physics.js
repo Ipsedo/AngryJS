@@ -33,7 +33,7 @@ class Physics
   {
     if(s1.pos.sub(s2.pos).norm() > s1.rad + s2.rad)
       return {s1, s2};
-
+    //  TODO
   }
   
   static collide_rs(r, s)
@@ -46,14 +46,17 @@ class Physics
 
   }
   
-  static collide(a, b)    {
+  static collide(a, b) {
     if(a instanceof Sphere && b instanceof Sphere)
       return this.collide_ss(a, b);
+    
     if(a instanceof Rectangle && b instanceof Rectangle)
       return this.collide_rr(a, b);
-    if(a instanceof Sphere && b instanceof Rectangle)
-      //return this.collide_rs(a, b); TODO
+    
     if(a instanceof Rectangle && b instanceof Sphere)
       return this.collide_rs(a, b);
+    
+    if(a instanceof Sphere && b instanceof Rectangle)
+      { {na, nb} = this.collide_rs(a, b); return {nb, na}; }
   }
 }

@@ -62,11 +62,16 @@ class Physics
   {
     let s = rb.minkowksiDiff(ra);
   
-    { //  Elasticity check
+    { //  Check if origin is inside the Minkowski difference
+      let a = s.pos;
+      let b = s.pos.add(s.dim);
 
+      if (  a.x < 0
+        &&  0 < b.x
+        &&  a.y < 0
+        &&  0 < b.y )
+        return {ra, rb};
     }
-
-    if (!ra.minkowksiDiff(rb).hasOrigin()) return {ra, rb};
   
     let up    = new Vector( 0                    , s.origin.y );
     let down  = new Vector( 0                    , s.height + s.origin.y );
@@ -80,11 +85,14 @@ class Physics
     let norm_l = left.norm();
     let norm_r = right.norm();
   
-    if(norm_u < norm_d && norm_u < norm_l && norm_u < norm_r) n = up;
-    else if (norm_d < norm_u && norm_d < norm_r && norm_d < norm_l) n = down;
-    else if (norm_l < norm_u && norm_l < norm_d && norm_l < norm_r) n = left;
-    else n = right;
-  
+    let min_norm = Math.min( norm_u , norm_d , norm_l , norm_r );
+
+    switch (min_norm)
+    { case norm_u: n = norm_u; break;
+      case norm_d: n = norm_d; break;
+      case norm_l: n = norm_l; break;
+      case norm_r: n = norm_r; break; }
+
     let nA = ra.vel.norm() / ( ra.vel.norm() + rb.vel.norm() );
     let nB = rb.vel.norm() / ( ra.vel.norm() + rb.vel.norm() );
   
@@ -99,7 +107,7 @@ class Physics
     }
   
     //  MODIFY
-    //ra = ra.add(n.mult(nA));)
+    //ra = ra.add(n.mult(nA)));
     //  MODIFY
     //rb = rb.add(n.mult(-nB));
   
@@ -107,7 +115,7 @@ class Physics
   
     let rel_speed = ra.vel.sub(rb.vel);
     
-    const e = Body.elasticity;
+    const e = Body.elasticity();
   
     let vC = n.mult(j * ra.invMass).add(ra.vel);
     let vB = rb.vel.sub(n.mult(j * rb.invMass));

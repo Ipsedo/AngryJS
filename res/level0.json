@@ -1,0 +1,25 @@
+[
+  {
+    "body" : {
+      "infos" : {
+        "mass" : 10,
+        "pos"  : [100, 100],
+        "vel"  : [0.2, 0.1],
+        "isStatic" : false
+      },
+
+      "additional_info" : {
+        "isRect" : true,
+        "rad"    : null,
+        "dim"    : [100, 100]
+      }
+    },
+
+    "sprite" : {
+      "img_uri" : null,
+      "color"   : [255, 0, 0]
+    },
+
+    "life" : 10
+  }
+]

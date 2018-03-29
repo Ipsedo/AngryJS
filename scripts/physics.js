@@ -37,7 +37,7 @@ class Rectangle extends Body
 
   minkowskiDiff(r)
   {
-    let vec = this.pos.sub(r.pos).sub(dim);
+    let vec = this.pos.sub(r.pos).sub(r.dim);
     return { pos: vec, dim: this.dim.add(r.dim) };
   }
 }
@@ -59,20 +59,20 @@ class Physics
   {
     let s = rb.minkowskiDiff(ra);
 
-    { //  On vérifie si l'origine est dans la diff de Minkowski
-      let a = s.pos;
-      let b = s.pos.add(s.dim);
+     //  On vérifie si l'origine est dans la diff de Minkowski
+    let a = s.pos;
+    let b = s.pos.add(s.dim);
 
-      if ( a.x < 0 && 0 < b.x
-        && a.y < 0 && 0 < b.y )
-        return;
-    }
+    let hasOrigin = a.x < 0 && 0 < b.x
+        && a.y < 0 && 0 < b.y;
+    if (!hasOrigin)
+      return;
 
     //  Définition du plan de collision
-    let up    = new Vector( 0                    , s.origin.y );
-    let down  = new Vector( 0                    , s.height + s.origin.y );
-    let left  = new Vector( s.origin.x           , 0 );
-    let right = new Vector( s.origin.x + s.width , 0 );
+    let up    = new Vector( 0                 , s.pos.y );
+    let down  = new Vector( 0                 , s.dim.y + s.pos.y );
+    let left  = new Vector( s.pos.x           , 0 );
+    let right = new Vector( s.pos.x + s.dim.x , 0 );
 
     let norm_u = up.norm();
     let norm_d = down.norm();
@@ -85,19 +85,19 @@ class Physics
     let n;
 
     switch (min_norm)
-    { case norm_u: n = norm_u; break;
-      case norm_d: n = norm_d; break;
-      case norm_l: n = norm_l; break;
-      case norm_r: n = norm_r; break; }
+    { case norm_u: n = up; break;
+      case norm_d: n = down; break;
+      case norm_l: n = left; break;
+      case norm_r: n = right; break; }
 
     //  Calcul du rapport masse / somme des masses des objets, pour chaque objet
     let nA = ra.vel.norm() / ( ra.vel.norm() + rb.vel.norm() );
     let nB = rb.vel.norm() / ( ra.vel.norm() + rb.vel.norm() );
 
-    if (ra.vel.norm() == rb.vel.norm())
+    if (ra.vel.norm() === rb.vel.norm())
     {
       //  Masses infinies : on fait rien
-      if (ra.mass == Infinity && rb.mass == Infinity) return;
+      if (ra.mass === Infinity && rb.mass === Infinity) return;
 
       //  La plus grande masse éjecte l'autre
       if (ra.mass > rb.mass)
@@ -111,18 +111,18 @@ class Physics
 
     //  v est la vitesse de b par rapport à a
     let v = ra.vel.sub(rb.vel);
-    const e = Body.elasticity();
+    const e = Body.elasticity;
 
     //  Calcul de l'impulsion
-    let j = (−(1. + e) * Vector.dot(v, n)) / ((1. / ra.mass) + (1. / rb.mass));
+    let j = -(1. + e) * Vector.dot(v, n) / ((1. / ra.mass) + (1. / rb.mass));
 
     //  MàJ de la position
-    ra.pos = ra.pos.add(n.mult(nA));
-    rb.pos = rb.pos.add(n.mult(-nB));
+    ra.pos = ra.pos.add(n.mul(nA));
+    rb.pos = rb.pos.add(n.mul(-nB));
 
     //  MàJ de la vitesse
-    ra.vel = n.mult(j / ra.mass).add(ra.vel);
-    rb.vel = rb.vel.sub(n.mult(j / rb.mass));
+    ra.vel = n.mul(j / ra.mass).add(ra.vel);
+    rb.vel = rb.vel.sub(n.mul(j / rb.mass));
   }
 
   /**

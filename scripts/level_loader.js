@@ -77,7 +77,7 @@ class LevelLoader {
         }
         let infos = bodyJSON.infos;
         //TODO tester si les champs de infos sont bien définis
-        let mass = infos.mass;
+        let mass = infos.mass === null ? Infinity : infos.mass; // On peut pas mettre Infinity dans JSON :,(
         let pos = new Vector(infos.pos[0], infos.pos[1]);
         let vel = new Vector(infos.vel[0], infos.vel[1]);
         let isStatic = infos.isStatic;
@@ -117,7 +117,7 @@ class LevelLoader {
         let sprite;
         //TODO tester si color et image sont bien definis
         if (body instanceof Rectangle) {
-            if (entityJSON.sprite.image !== null) {
+            if (entityJSON.sprite.img_uri !== null) {
                 let uri = entityJSON.sprite.img_uri;
                 sprite = new ImageRectSprite(this.context, body, uri);
             } else {

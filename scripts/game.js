@@ -18,11 +18,38 @@ class Game
   {
     //  On amorce le jeu en appelant start
 
-      let r = new Rectangle(1, Vector.fill(0), 1, Vector.fill(100));
-      let s = new RectSprite(this.context, r, [255,0,0]);
-      this.entities.push({ obj : r, sprite : s });
+      let r1 = new Rectangle(1, Vector.fill(0), 1, Vector.fill(100));
+      let s1 = new RectSprite(this.context, r1, [255,0,0]);
+      this.entities.push(new Entity(r1, s1, 10));
 
-      requestAnimationFrame(this.render.bind(this));
+      requestAnimationFrame(this.update.bind(this));
+  }
+
+    /**
+     * Supprime les entités mortes
+     */
+  removeDeadEntity() {
+      this.entities.filter((e) => e.isAlive());
+  }
+
+    /**
+     * Fonction d'animation et de collision
+     */
+  anime() {
+      this.entities.forEach((e) => e.body.pos.x += 1);
+      //TODO collision
+  }
+
+    /**
+     * 1) Supprimer les entités mortes
+     * 2) Animer le jeu
+     * 3) Dessiner le jeu
+     */
+  update() {
+      this.removeDeadEntity();
+      this.anime();
+      this.render();
+      requestAnimationFrame(this.update.bind(this));
   }
 
     /**
@@ -32,11 +59,12 @@ class Game
       this.context.clearRect(0, 0, this.windowW, this.windowH);
 
       this.walls.forEach((w) => w.draw());
-      this.entities.forEach((e) => {
-        e.obj.pos.x += 0.1; // Test -> à virer (faire <<'"multi-threading"'>> pour partie physic)
-        e.sprite.draw();
-      });
-
-      requestAnimationFrame(this.render.bind(this));
+      this.entities.forEach((e) => e.sprite.draw());
   }
 }
+
+window.addEventListener("load", () => {
+    let c = document.getElementById("main");
+    let g = new Game(c, [], [], () => alert("perdu !"));
+    g.start();
+});

@@ -35,7 +35,7 @@ class Rectangle extends Body
   { super(mass, pos, vel, isStatic);
     this.dim = dim; }
 
-  minkowksiDiff(r)
+  minkowskiDiff(r)
   {
     let vec = this.pos.sub(r.pos).sub(dim);
     return { pos: vec, dim: this.dim.add(r.dim) };
@@ -51,36 +51,35 @@ class Physics
     //  TODO
     return {s1, s2};
   }
-  
+
   static collide_rs(r, s)
     { return {r, s} }
 
   static collide_rr (ra, rb)
   {
-    let s = rb.minkowksiDiff(ra);
-  
-    { //  Check if origin is inside the Minkowski difference
+    let s = rb.minkowskiDiff(ra);
+
+    { //  On vérifie si l'origine est dans la diff de Minkowski
       let a = s.pos;
       let b = s.pos.add(s.dim);
 
-      if (  a.x < 0
-        &&  0 < b.x
-        &&  a.y < 0
-        &&  0 < b.y )
-        return {ra, rb};
+      if ( a.x < 0 && 0 < b.x
+        && a.y < 0 && 0 < b.y )
+        return;
     }
 
-    //  Sélection du plan de collision
+    //  Définition du plan de collision
     let up    = new Vector( 0                    , s.origin.y );
     let down  = new Vector( 0                    , s.height + s.origin.y );
     let left  = new Vector( s.origin.x           , 0 );
     let right = new Vector( s.origin.x + s.width , 0 );
-    
+
     let norm_u = up.norm();
     let norm_d = down.norm();
     let norm_l = left.norm();
     let norm_r = right.norm();
-    
+
+    //  Sélection du plan de collision
     let min_norm = Math.min( norm_u , norm_d , norm_l , norm_r );
 
     let n;
@@ -91,48 +90,56 @@ class Physics
       case norm_l: n = norm_l; break;
       case norm_r: n = norm_r; break; }
 
+    //  Calcul du rapport masse / somme des masses des objets, pour chaque objet
     let nA = ra.vel.norm() / ( ra.vel.norm() + rb.vel.norm() );
     let nB = rb.vel.norm() / ( ra.vel.norm() + rb.vel.norm() );
-  
+
     if (ra.vel.norm() == rb.vel.norm())
     {
-      if (ra.mass == Infinity && rb.mass == Infinity) return {ra, rb};
-      
+      //  Masses infinies : on fait rien
+      if (ra.mass == Infinity && rb.mass == Infinity) return;
+
+      //  La plus grande masse éjecte l'autre
       if (ra.mass > rb.mass)
         { nA = 0; nB = 1; }
       else
         { nA = 1; nB = 0; }
     }
-  
+
+    //  n est la normale du plan de collision
     n = n.normalize();
-  
+
+    //  v est la vitesse de b par rapport à a
     let v = ra.vel.sub(rb.vel);
     const e = Body.elasticity();
-  
-    let j = (− (1. + e) * Vector.dot(v, n)) / ( (1. / ra.mass) + (1. / rb.mass) );
 
-    //  Position update
+    //  Calcul de l'impulsion
+    let j = (−(1. + e) * Vector.dot(v, n)) / ((1. / ra.mass) + (1. / rb.mass));
+
+    //  MàJ de la position
     ra.pos = ra.pos.add(n.mult(nA));
     rb.pos = rb.pos.add(n.mult(-nB));
 
-    //  Velocity update
+    //  MàJ de la vitesse
     ra.vel = n.mult(j / ra.mass).add(ra.vel);
     rb.vel = rb.vel.sub(n.mult(j / rb.mass));
   }
 
-  static collide(a, b) {
+  /**
+   *  Gère les collisions entre deux bodies quelconques
+   */
+  static collide(a, b)
+  {
     if(a instanceof Rectangle && b instanceof Rectangle)
-      return Physics.collide_rr(a, b);
-    
-    return;
+      Physics.collide_rr(a, b);
 
-//    if(a instanceof Sphere && b instanceof Sphere)
-//      return Physics.collide_ss(a, b);
-//
-//    if(a instanceof Rectangle && b instanceof Sphere)
-//      return Physics.collide_rs(a, b);
-//    
-//    if(a instanceof Sphere && b instanceof Rectangle)
-//      { let {na, nb} = Physics.collide_rs(a, b); return {nb, na}; }
+    if(a instanceof Sphere && b instanceof Sphere)
+      Physics.collide_ss(a, b);
+
+    if(a instanceof Rectangle && b instanceof Sphere)
+      Physics.collide_rs(a, b);
+
+    if(a instanceof Sphere && b instanceof Rectangle)
+      Physics.collide_rs(b, a);
   }
 }

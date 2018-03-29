@@ -7,8 +7,6 @@ class Sprite {
     setColor(color) {
         this.context.fillStyle = "rgb(" + color[0] + "," + color[1] + "," + color[2] + ")";
     }
-
-    draw() { console.log("Empty shape !"); }
 }
 
 class RectSprite extends Sprite {

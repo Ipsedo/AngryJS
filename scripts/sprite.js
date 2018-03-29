@@ -5,7 +5,10 @@ class Sprite {
     }
 
     setColor(color) {
-        this.context.fillStyle = "rgb(" + color[0] + "," + color[1] + "," + color[2] + ")";
+        this.context.fillStyle = "rgb("
+            + color[0] + ","
+            + color[1] + ","
+            + color[2] + ")";
     }
 }
 
@@ -19,7 +22,8 @@ class RectSprite extends Sprite {
 
     draw() {
         super.setColor(this.color);
-        this.context.fillRect(this.rect.pos.x, this.rect.pos.y, this.rect.dim.x, this.rect.dim.y);
+        this.context.fillRect(this.rect.pos.x, this.rect.pos.y,
+            this.rect.dim.x, this.rect.dim.y);
     }
 }
 
@@ -34,7 +38,8 @@ class CircleSprite extends Sprite {
     draw() {
         super.setColor(this.color);
         this.context.beginPath();
-        this.context.arc(this.circle.pos.x, this.circle.pos.y, this.circle.rad, 0, Math.PI * 2.0);
+        this.context.arc(this.circle.pos.x, this.circle.pos.y,
+            this.circle.rad, 0, Math.PI * 2.0);
         this.context.fill();
     }
 }
@@ -49,7 +54,9 @@ class ImageRectSprite extends Sprite {
     }
 
     draw() {
-        this.context.drawImage(this.img, this.rect.pos.x, this.rect.pos.y, this.rect.dim.x, this.rect.dim.y);
+        this.context.drawImage(this.img,
+            this.rect.pos.x, this.rect.pos.y,
+            this.rect.dim.x, this.rect.dim.y);
     }
 }
 

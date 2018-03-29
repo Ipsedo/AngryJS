@@ -54,9 +54,6 @@ class Physics
   
   static collide_rs(r, s)
     { return {r, s} }
-  
-  static collide_rr(ra, rb)
-    { return {ra, rb} }
 
   static collide_rr (ra, rb)
   {
@@ -72,20 +69,21 @@ class Physics
         &&  0 < b.y )
         return {ra, rb};
     }
-  
+
+    //  Sélection du plan de collision
     let up    = new Vector( 0                    , s.origin.y );
     let down  = new Vector( 0                    , s.height + s.origin.y );
     let left  = new Vector( s.origin.x           , 0 );
     let right = new Vector( s.origin.x + s.width , 0 );
     
-    let n;
-
     let norm_u = up.norm();
     let norm_d = down.norm();
     let norm_l = left.norm();
     let norm_r = right.norm();
-  
+    
     let min_norm = Math.min( norm_u , norm_d , norm_l , norm_r );
+
+    let n;
 
     switch (min_norm)
     { case norm_u: n = norm_u; break;
@@ -98,7 +96,7 @@ class Physics
   
     if (ra.vel.norm() == rb.vel.norm())
     {
-      if (ra.mass == Infinity && rb.mass == Infinity) return null;
+      if (ra.mass == Infinity && rb.mass == Infinity) return {ra, rb};
       
       if (ra.mass > rb.mass)
         { nA = 0; nB = 1; }
@@ -106,36 +104,35 @@ class Physics
         { nA = 1; nB = 0; }
     }
   
-    //  MODIFY
-    //ra = ra.add(n.mult(nA)));
-    //  MODIFY
-    //rb = rb.add(n.mult(-nB));
-  
     n = n.normalize();
   
-    let rel_speed = ra.vel.sub(rb.vel);
-    
+    let v = ra.vel.sub(rb.vel);
     const e = Body.elasticity();
   
-    let vC = n.mult(j * ra.invMass).add(ra.vel);
-    let vB = rb.vel.sub(n.mult(j * rb.invMass));
-  
-    return { velocity1 : vC , velocity2: vB };
+    let j = (− (1. + e) * Vector.dot(v, n)) / ( (1. / ra.mass) + (1. / rb.mass) );
+
+    //  Position update
+    ra.pos = ra.pos.add(n.mult(nA));
+    rb.pos = rb.pos.add(n.mult(-nB));
+
+    //  Velocity update
+    ra.vel = n.mult(j / ra.mass).add(ra.vel);
+    rb.vel = rb.vel.sub(n.mult(j / rb.mass));
   }
 
   static collide(a, b) {
-    return null;
-
-    if(a instanceof Sphere && b instanceof Sphere)
-      return this.collide_ss(a, b);
-    
     if(a instanceof Rectangle && b instanceof Rectangle)
-      return this.collide_rr(a, b);
+      return Physics.collide_rr(a, b);
     
-    if(a instanceof Rectangle && b instanceof Sphere)
-      return this.collide_rs(a, b);
-    
-    if(a instanceof Sphere && b instanceof Rectangle)
-      { let {na, nb} = this.collide_rs(a, b); return {nb, na}; }
+    return;
+
+//    if(a instanceof Sphere && b instanceof Sphere)
+//      return Physics.collide_ss(a, b);
+//
+//    if(a instanceof Rectangle && b instanceof Sphere)
+//      return Physics.collide_rs(a, b);
+//    
+//    if(a instanceof Sphere && b instanceof Rectangle)
+//      { let {na, nb} = Physics.collide_rs(a, b); return {nb, na}; }
   }
 }

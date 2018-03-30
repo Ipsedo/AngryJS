@@ -3,7 +3,6 @@ class Game
     // Passer width et height du canvas + context ou juste canvas ?
   constructor(canvas, entities, onLose = (() => {}))
   {
-    canvas.style.backgroundColor = "#AAAAAA";
     this.context   = canvas.getContext("2d");
     this.windowW = canvas.width;
     this.windowH = canvas.height;
@@ -15,20 +14,32 @@ class Game
 
     this.firstFrame = true;
     this.lastTime = Date.now();
+    this.isPaused = true;
 
     this.physics = new Physics();
+
+    let levelLoader = new LevelLoader(this.context);
+    let that = this;
+    levelLoader.load("./res/level0.json", (e) => {
+        that.entities = e;
+        that.render();
+    });
   }
 
   start()
   {
     //  On amorce le jeu en appelant start
+      this.isPaused = false;
+      requestAnimationFrame(this.update.bind(this));
+  }
 
-      let levelLoader = new LevelLoader(this.context);
-      let that = this;
-      levelLoader.load("./res/level0.json", (e) => {
-          that.entities = e;
-      });
+  pause() {
+      this.isPaused = true;
+  }
 
+  resume() {
+      this.isPaused = false;
+      this.lastTime = Date.now();
       requestAnimationFrame(this.update.bind(this));
   }
 
@@ -59,17 +70,6 @@ class Game
      * Fonction d'animation et de collision
      */
   anime(timeDelta) {
-      // TODO mouvements selon le delta de temps depuis le dernier appel
-      /*this.entities.forEach((e) => {
-          e.body.pos = e.body.pos.add(e.body.vel.mul(timeDelta));
-      });
-      //this.entities.forEach((e) => e.life--);
-
-      for (let i = 0; i < this.entities.length; i++) {
-        for (let j = i + 1; j < this.entities.length; j++) {
-            Physics.collide(this.entities[i].body, this.entities[j].body);
-        }
-      }*/
       this.physics.compute(this.entities.map(e => e.body), timeDelta);
       this.explosion.forEach((e) => e.update());
   }
@@ -91,7 +91,9 @@ class Game
 
       this.lastTime = Date.now();
 
-      requestAnimationFrame(this.update.bind(this));
+      if (!this.isPaused) {
+          requestAnimationFrame(this.update.bind(this));
+      }
   }
 
     /**
@@ -108,5 +110,18 @@ class Game
 window.addEventListener("load", () => {
     let c = document.getElementById("main");
     let g = new Game(c, [], [], () => alert("perdu !"));
-    g.start();
+
+    let button = document.getElementById("play_pause");
+    button.addEventListener("click", (e) => {
+
+        if (button.innerText === "Play") {
+            button.innerText = "Pause";
+            if (g.firstFrame) g.start();
+            else g.resume();
+        } else {
+            button.innerText = "Play";
+            g.pause();
+        }
+    });
 });
+

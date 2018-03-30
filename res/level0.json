@@ -53,7 +53,7 @@
         "mass" : null,
         "pos"  : [0, -10],
         "vel"  : [0.0, 0.0],
-        "isStatic" : false
+        "isStatic" : true
       },
 
       "additional_info" : {
@@ -77,7 +77,7 @@
         "mass" : null,
         "pos"  : [0, 758],
         "vel"  : [0.0, 0.0],
-        "isStatic" : false
+        "isStatic" : true
       },
 
       "additional_info" : {
@@ -101,7 +101,7 @@
         "mass" : null,
         "pos"  : [-10, 10],
         "vel"  : [0.0, 0.0],
-        "isStatic" : false
+        "isStatic" : true
       },
 
       "additional_info" : {
@@ -125,7 +125,7 @@
         "mass" : null,
         "pos"  : [1014, 10],
         "vel"  : [0.0, 0.0],
-        "isStatic" : false
+        "isStatic" : true
       },
 
       "additional_info" : {
@@ -138,6 +138,30 @@
     "sprite" : {
       "img_uri" : null,
       "color"   : [0, 0, 0]
+    },
+
+    "life" : 10
+  },
+
+  {
+    "body" : {
+      "infos" : {
+        "mass" : 0.5e10,
+        "pos"  : [200, 200],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : true
+      },
+
+      "additional_info" : {
+        "isRect" : true,
+        "rad"    : null,
+        "dim"    : [20, 20]
+      }
+    },
+
+    "sprite" : {
+      "img_uri" : null,
+      "color"   : [0, 255, 0]
     },
 
     "life" : 10

@@ -15,6 +15,8 @@ class Game
 
     this.firstFrame = true;
     this.lastTime = Date.now();
+
+    this.physics = new Physics();
   }
 
   start()
@@ -58,17 +60,18 @@ class Game
      */
   anime(timeDelta) {
       // TODO mouvements selon le delta de temps depuis le dernier appel
-      this.entities.forEach((e) => {
+      /*this.entities.forEach((e) => {
           e.body.pos = e.body.pos.add(e.body.vel.mul(timeDelta));
       });
       //this.entities.forEach((e) => e.life--);
-      this.explosion.forEach((e) => e.update());
 
       for (let i = 0; i < this.entities.length; i++) {
         for (let j = i + 1; j < this.entities.length; j++) {
             Physics.collide(this.entities[i].body, this.entities[j].body);
         }
-      }
+      }*/
+      this.physics.compute(this.entities.map(e => e.body), timeDelta);
+      this.explosion.forEach((e) => e.update());
   }
 
     /**

@@ -146,7 +146,7 @@
   {
     "body" : {
       "infos" : {
-        "mass" : 0.5e10,
+        "mass" : 0.5e11,
         "pos"  : [200, 200],
         "vel"  : [0.0, 0.0],
         "isStatic" : true

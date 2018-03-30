@@ -117,12 +117,15 @@ class Physics
     let j = -(1. + e) * Vector.dot(v, n) / ((1. / ra.mass) + (1. / rb.mass));
 
     //  MàJ de la position
-    ra.pos = ra.pos.add(n.mul(nA));
-    rb.pos = rb.pos.add(n.mul(-nB));
-
     //  MàJ de la vitesse
-    ra.vel = n.mul(j / ra.mass).add(ra.vel);
-    rb.vel = rb.vel.sub(n.mul(j / rb.mass));
+    if(!ra.isStatic) {
+        ra.pos = ra.pos.add(n.mul(nA));
+        ra.vel = n.mul(j / ra.mass).add(ra.vel);
+    }
+    if(!rb.isStatic) {
+        rb.pos = rb.pos.add(n.mul(-nB));
+        rb.vel = rb.vel.sub(n.mul(j / rb.mass));
+    }
   }
 
   /**
@@ -141,5 +144,49 @@ class Physics
 
     if(a instanceof Sphere && b instanceof Rectangle)
       Physics.collide_rs(b, a);
+  }
+
+  static get G() { return 6.67e-11; }
+
+  constructor() {
+    // Masse en kg, distance en cm (1 px = 1 cm)
+    this.earth = new Sphere(5.972e24, new Vector(0, 12.742e8), 0, Vector.fill(1), true);
+  }
+
+  compute(bodies, dt) {
+    let toCompute = bodies.concat(this.earth);
+
+    for (let i = 0; i < toCompute.length; i++) {
+      let a = toCompute[i];
+      for (let j = i + 1; j < toCompute.length; j++) {
+        let b = toCompute[j];
+
+        Physics.collide(a, b);
+
+        // On veut pas de masse infinie
+        if (Number.isFinite(a.mass) && Number.isFinite(b.mass)) {
+            let uAB = b.pos.sub(a.pos);
+
+            let normF = Physics.G / Math.pow(uAB.norm(), 2);
+
+            uAB = uAB.normalize();
+            let uBA = uAB.mul(-1.);
+
+            // Les objets statiques ne subissent pas de force
+            if (!a.isStatic) {
+                let accA = uAB.mul(normF * b.mass);
+                a.vel = a.vel.add(accA.mul(dt));
+            }
+            if (!b.isStatic) {
+                let accB = uBA.mul(normF * a.mass);
+                b.vel = b.vel.add(accB.mul(dt));
+            }
+        }
+      }
+      // Les objets statiques de bougent pas
+      if (!a.isStatic) {
+        a.pos = a.pos.add(a.vel.mul(dt));
+      }
+    }
   }
 }

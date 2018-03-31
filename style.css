@@ -1,10 +1,15 @@
-#main {
+canvas {
+    width: 100vw;
+    height: 75vw;
+    max-height: 90vh;
+    max-width: 120vh;
     background-color: #AAAAAA;
 }
 
 button {
-    margin-top: 30px;
-    width: 100px;
-    height: 30px;
+    width: 100vw;
+    height: 30vw;
+    max-height: 8vh;
+    max-width: 24vh;
     background-color: #CCCCCC;
 }

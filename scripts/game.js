@@ -30,6 +30,8 @@ class Game
   {
     //  On amorce le jeu en appelant start
       this.isPaused = false;
+      this.firstFrame = false;
+      this.lastTime = Date.now();
       requestAnimationFrame(this.update.bind(this));
   }
 
@@ -80,18 +82,11 @@ class Game
      * 3) Dessiner le jeu
      */
   update() {
-      if (this.firstFrame) {
-          this.lastTime = Date.now();
-          this.firstFrame = false;
-      }
-
-      this.removeDeadEntity();
-      this.anime(Date.now() - this.lastTime);
-      this.render();
-
-      this.lastTime = Date.now();
-
       if (!this.isPaused) {
+          this.removeDeadEntity();
+          this.anime(Date.now() - this.lastTime);
+          this.render();
+          this.lastTime = Date.now();
           requestAnimationFrame(this.update.bind(this));
       }
   }
@@ -119,6 +114,13 @@ window.addEventListener("load", () => {
             if (g.firstFrame) g.start();
             else g.resume();
         } else {
+            button.innerText = "Play";
+            g.pause();
+        }
+    });
+
+    document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
             button.innerText = "Play";
             g.pause();
         }

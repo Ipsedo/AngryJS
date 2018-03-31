@@ -1,11 +1,11 @@
 class Game {
     // Passer width et height du canvas + context ou juste canvas ?
-    constructor(canvas, entities, onLose = (() => {})) {
-        this.context = canvas.getContext("2d");
-        this.windowW = canvas.width;
-        this.windowH = canvas.height;
+    constructor(context, w, h, levelPath, onLose = (() => {})) {
+        this.context = context;
+        this.windowW = w;
+        this.windowH = h;
 
-        this.entities = entities;
+        this.entities = [];
         this.explosion = [];
 
         this.onLose = onLose;
@@ -18,7 +18,7 @@ class Game {
 
         let levelLoader = new LevelLoader(this.context);
         let that = this;
-        levelLoader.load("./res/level0.json", (e) => {
+        levelLoader.load(levelPath, (e) => {
             that.entities = e;
             that.render();
         });
@@ -47,7 +47,7 @@ class Game {
      */
     removeDeadEntity() {
         let that = this;
-        this.entities.forEach((e) => {
+        this.entities = this.entities.filter((e) => {
             if (!e.isAlive()) {
                 let middle;
                 if (e.body instanceof Sphere) {
@@ -61,8 +61,8 @@ class Game {
                 let ex = new Explosion(that.context, middle, e.sprite.color, 20);
                 that.explosion.push(ex);
             }
+            return e.isAlive();
         });
-        this.entities = this.entities.filter((e) => e.isAlive());
         this.explosion = this.explosion.filter((e) => e.isAlive());
     }
 
@@ -102,7 +102,9 @@ class Game {
 
 window.addEventListener("load", () => {
     let c = document.getElementById("main");
-    let g = new Game(c, [], [], () => alert("perdu !"));
+    let ctx = c.getContext("2d")
+    let g = new Game(ctx, c.width, c.height,
+        "./res/level0.json", () => alert("perdu !"));
 
     let button = document.getElementById("play_pause");
     button.addEventListener("click", (e) => {

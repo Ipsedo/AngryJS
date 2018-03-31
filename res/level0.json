@@ -59,7 +59,7 @@
       "additional_info" : {
         "isRect" : true,
         "rad"    : null,
-        "dim"    : [1024, 20]
+        "dim"    : [1920, 20]
       }
     },
 
@@ -75,7 +75,7 @@
     "body" : {
       "infos" : {
         "mass" : null,
-        "pos"  : [0, 758],
+        "pos"  : [0, 1070],
         "vel"  : [0.0, 0.0],
         "isStatic" : true
       },
@@ -83,7 +83,7 @@
       "additional_info" : {
         "isRect" : true,
         "rad"    : null,
-        "dim"    : [1024, 20]
+        "dim"    : [1920, 20]
       }
     },
 
@@ -107,7 +107,7 @@
       "additional_info" : {
         "isRect" : true,
         "rad"    : null,
-        "dim"    : [20, 748]
+        "dim"    : [20, 1060]
       }
     },
 
@@ -123,7 +123,7 @@
     "body" : {
       "infos" : {
         "mass" : null,
-        "pos"  : [1014, 10],
+        "pos"  : [1910, 10],
         "vel"  : [0.0, 0.0],
         "isStatic" : true
       },
@@ -131,7 +131,7 @@
       "additional_info" : {
         "isRect" : true,
         "rad"    : null,
-        "dim"    : [20, 748]
+        "dim"    : [20, 1060]
       }
     },
 
@@ -155,7 +155,7 @@
       "additional_info" : {
         "isRect" : true,
         "rad"    : null,
-        "dim"    : [20, 20]
+        "dim"    : [50, 50]
       }
     },
 

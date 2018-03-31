@@ -64,7 +64,7 @@ class Point extends Sprite {
     constructor(context, particule, color) {
         super(context);
         this.particule = particule;
-        this.color  = color;
+        this.color = color;
     }
 
     draw() {

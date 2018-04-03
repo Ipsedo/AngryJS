@@ -16,9 +16,20 @@ class Game {
 
         this.physics = new Physics();
 
+        this.levelPath = levelPath;
+
         let levelLoader = new LevelLoader(this.context);
         let that = this;
-        levelLoader.load(levelPath, (e) => {
+        levelLoader.load(this.levelPath, (e) => {
+            that.entities = e;
+            that.render();
+        });
+    }
+
+    reloadLevel() {
+        let levelLoader = new LevelLoader(this.context);
+        let that = this;
+        levelLoader.load(this.levelPath, (e) => {
             that.entities = e;
             that.render();
         });
@@ -106,22 +117,29 @@ window.addEventListener("load", () => {
     let g = new Game(ctx, c.width, c.height,
         "./res/level0.json", () => alert("perdu !"));
 
-    let button = document.getElementById("play_pause");
-    button.addEventListener("click", (e) => {
+    let start_button = document.getElementById("play_pause");
+    start_button.addEventListener("click", (e) => {
 
-        if (button.innerText === "Play") {
-            button.innerText = "Pause";
+        if (start_button.innerText === "Play") {
+            start_button.innerText = "Pause";
             if (g.firstFrame) g.start();
             else g.resume();
         } else {
-            button.innerText = "Play";
+            start_button.innerText = "Play";
             g.pause();
         }
     });
 
+    let reset_button = document.getElementById("reset");
+    reset_button.addEventListener("click", (e) => {
+        g.pause();
+        start_button.innerText = "Play";
+        g.reloadLevel();
+    });
+
     document.addEventListener("visibilitychange", () => {
         if (document.hidden) {
-            button.innerText = "Play";
+            start_button.innerText = "Play";
             g.pause();
         }
     });

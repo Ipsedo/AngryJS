@@ -7,9 +7,11 @@ canvas {
 }
 
 button {
-    width: 100vw;
-    height: 30vw;
+    display: inline-block;
+    width: 25vw;
+    height: 8vw;
     max-height: 8vh;
     max-width: 24vh;
+    font-size: 6vh;
     background-color: #CCCCCC;
 }

@@ -9,7 +9,6 @@ class Controls {
 
     this.maxVelLaunch = maxVelLaunch;
 
-    this.hasBeginFire = false;
     this.fstPos = Vector.fill(0.);
 
     let that = this;
@@ -19,7 +18,6 @@ class Controls {
      * et on passe à vrai la variable indiquant le début du drag and drop
      */
     this.canvas.onmousedown = function (e) {
-      that.hasBeginFire = true;
       that.fstPos.x = e.clientX;
       that.fstPos.y = e.clientY;
     };
@@ -31,15 +29,14 @@ class Controls {
      * On normalise ce vecteur avec une norme limite
      */
     this.canvas.onmouseup = function (e) {
-      if (that.hasBeginFire) {
-        let finalPos = new Vector(e.clientX, e.clientY);
-        let launchVec = that.fstPos.sub(finalPos);
-        let norm = launchVec.norm();
-        norm = norm < that.maxVelLaunch ? norm : that.maxVelLaunch;
-        launchVec = launchVec.div(launchVec.norm()).mul(norm);
-        if (launchVec.norm() > 0)
-          that.onFire(that.fstPos, launchVec);
-      }
+      let finalPos = new Vector(e.clientX, e.clientY);
+      let launchVec = that.fstPos.sub(finalPos);
+      let norm = launchVec.norm();
+      norm = norm < that.maxVelLaunch ? norm : that.maxVelLaunch;
+      launchVec = launchVec.normalize().mul(norm);
+      if (launchVec.norm() > 0)
+        that.onFire(that.fstPos, launchVec);
+
     };
   }
 }

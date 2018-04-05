@@ -77,10 +77,10 @@ class Physics
     let a = s.pos;
     let b = s.pos.add(s.dim);
 
-    let hasOrigin = a.x < 0 && 0 < b.x
+    let hasOrigin =
+         a.x < 0 && 0 < b.x
       && a.y < 0 && 0 < b.y;
-    if (!hasOrigin)
-      return;
+    if (!hasOrigin) return;
 
     //  Définition du plan de collision
     let up = new Vector(0, s.pos.y);
@@ -114,13 +114,8 @@ class Physics
       if (ra.mass === Infinity && rb.mass === Infinity) return;
 
       //  La plus grande masse éjecte l'autre
-      if (ra.mass > rb.mass) {
-        nA = 0;
-        nB = 1;
-      } else {
-        nA = 1;
-        nB = 0;
-      }
+      if (ra.mass > rb.mass)  { nA = 0; nB = 1; }
+      else                    { nA = 1; nB = 0; }
     }
 
     //  n est la normale du plan de collision
@@ -133,13 +128,16 @@ class Physics
     //  Calcul de l'impulsion
     let j = -(1. + e) * Vector.dot(v, n) / ((1. / ra.mass) + (1. / rb.mass));
 
-    //  MàJ de la position
-    //  MàJ de la vitesse
-    if (!ra.isStatic) {
+    //  MàJ de la position & vitesse
+    
+    if (!ra.isStatic)
+    {
       ra.pos = ra.pos.add(n.mul(nA));
       ra.vel = n.mul(j / ra.mass).add(ra.vel);
     }
-    if (!rb.isStatic) {
+
+    if (!rb.isStatic)
+    {
       rb.pos = rb.pos.add(n.mul(-nB));
       rb.vel = rb.vel.sub(n.mul(j / rb.mass));
     }
@@ -173,13 +171,6 @@ class Physics
       Physics.collide_rs(b, a);
   }
 
-  static get G() { return 6.67e-11; }
-
-  static get earth() { return new Sphere( 5.972e24
-                                        , new Vector(0, 12.742e8) , 0
-                                        , Vector.fill(1) , true
-                                        ); }
-
   static compute(bodies, dt)
   {
     let toCompute = bodies.concat(Physics.earth);
@@ -198,28 +189,27 @@ class Physics
         // On veut pas de masse infinie
         if (Number.isFinite(a.mass) && Number.isFinite(b.mass))
         {
-          let uAB = b.pos.sub(a.pos);
-
-          let normF = Physics.G / Math.pow(uAB.norm(), 2);
-
-          uAB = uAB.normalize();
-          let uBA = uAB.mul(-1.);
-
           // Les objets statiques ne subissent pas de force
-          if (!a.isStatic)
-          {
-            let accA = uAB.mul(normF * b.mass);
-            a.vel = a.vel.add(accA.mul(dt));
-          }
-          if (!b.isStatic)
-          {
-            let accB = uBA.mul(normF * a.mass);
-            b.vel = b.vel.add(accB.mul(dt));
-          }
+          if (!a.isStatic) a.vel = a.vel.add(gravity(a, b).mul(dt));
+          if (!b.isStatic) b.vel = b.vel.add(gravity(b, a).mul(dt));
         }
       }
       // Les objets statiques de bougent pas
       if (!a.isStatic) a.pos = a.pos.add(a.vel.mul(dt));
     }
   }
+
+
+  //  Calcule la gravité subie par a de b
+  gravity(a, b)
+  { 
+    let uAB = b.pos.sub(a.pos);
+    return uAB.normalize().mul((Physics.G * b.mass) / Math.pow(uAB.norm(), 2));
+  }
+
+  static get G() { return 6.67e-11; }
+  static get earth() { return new Sphere( 5.972e24
+                                        , new Vector(0, 12.742e8) , 0
+                                        , Vector.fill(1) , true
+                                        ); }
 }

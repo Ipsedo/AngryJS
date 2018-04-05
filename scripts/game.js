@@ -11,7 +11,6 @@ class Game {
     this.onLose = onLose;
 
     this.firstFrame = true;
-    this.lastTime = Date.now();
     this.isPaused = true;
 
     this.levelPath = levelPath;
@@ -57,7 +56,6 @@ class Game {
     //  On amorce le jeu en appelant start
     this.isPaused = false;
     this.firstFrame = false;
-    this.lastTime = Date.now();
     requestAnimationFrame(this.update.bind(this));
   }
 
@@ -67,7 +65,6 @@ class Game {
 
   resume() {
     this.isPaused = false;
-    this.lastTime = Date.now();
     requestAnimationFrame(this.update.bind(this));
   }
 
@@ -111,9 +108,8 @@ class Game {
   update() {
     if (!this.isPaused) {
       this.removeDeadEntity();
-      this.anime(Date.now() - this.lastTime);
+      this.anime(1000. / 60.);
       this.render();
-      this.lastTime = Date.now();
       requestAnimationFrame(this.update.bind(this));
     }
   }

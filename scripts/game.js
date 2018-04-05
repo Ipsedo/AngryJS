@@ -33,7 +33,7 @@ class Game {
       if (!that.isPaused) {
         let rect = new Rectangle(3, fst, Vector.fill(50), vec, false);
         let sprite = new RectSprite(context, rect, [0, 0, 255]);
-        let ball = new Entity(rect, sprite, 10);
+        let ball = new Entity(rect, sprite, 10, true);
         that.entities.push(ball);
       }
     };

@@ -8,8 +8,16 @@
  */
 class Entity {
 
-    constructor(body, sprite, life, onDead = () => {}) {
+    constructor(body, sprite, life, isFriable, onDead = () => {}) {
         this.body = body;
+
+        if (isFriable) {
+          let that = this;
+          this.body.onCollide = function (infos) {
+            that.hit(infos.impulsion);
+          };
+        }
+
         this.sprite = sprite;
         this.life = life;
         this.onDead = onDead;
@@ -25,7 +33,7 @@ class Entity {
 
     hit(force) {
         // Force de collision recupérée comment ?
-        let coef = 1.;
+        let coef = 1e-1;
         this.life -= force * coef;
     }
 }

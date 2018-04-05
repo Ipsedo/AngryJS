@@ -8,32 +8,32 @@
  */
 class Entity {
 
-    constructor(body, sprite, life, isFriable, onDead = () => {}) {
-        this.body = body;
+  constructor(body, sprite, life, isFriable, onDead = () => {}) {
+    this.body = body;
 
-        if (isFriable) {
-          let that = this;
-          this.body.onCollide = function (infos) {
-            that.hit(infos.impulsion);
-          };
-        }
-
-        this.sprite = sprite;
-        this.life = life;
-        this.onDead = onDead;
+    if (isFriable) {
+      let that = this;
+      this.body.onCollide = function (infos) {
+        that.hit(infos.impulsion);
+      };
     }
 
-    isAlive() {
-        let l = this.life > 0;
-        if (!l) {
-            this.onDead();
-        }
-        return l;
-    }
+    this.sprite = sprite;
+    this.life = life;
+    this.onDead = onDead;
+  }
 
-    hit(force) {
-        // Force de collision recupérée comment ?
-        let coef = 1e-1;
-        this.life -= force * coef;
+  isAlive() {
+    let l = this.life > 0;
+    if (!l) {
+      this.onDead();
     }
+    return l;
+  }
+
+  hit(force) {
+    // Force de collision recupérée comment ?
+    let coef = 1e-1;
+    this.life -= force * coef;
+  }
 }

@@ -1,54 +1,75 @@
-class Body {
-  constructor(mass, pos
-    , vel = new Vector(0, 0)
-    , isStatic = false) {
+class Body
+{
+  constructor ( mass , pos
+              , vel = new Vector(0, 0)
+              , isStatic = false
+             
+              //  Callback de collision
+              , onCollide = (a) => {}
+              )
+  {
     this.pos = pos;
     this.vel = vel;
     this.mass = mass;
+
     this.isStatic = isStatic;
+    
+    this.onCollide = onCollide;
   }
 
   static get elasticity() { return 1.; }
 }
 
-class Sphere extends Body {
-  constructor(mass, pos
-    , rad
-    , vel = new Vector(0, 0)
-    , isStatic = false) {
-    super(mass, pos, vel, isStatic);
+class Sphere extends Body
+{
+  constructor ( mass, pos
+              , rad
+              
+              , vel = new Vector(0, 0)
+              , isStatic = false
+              , onCollide = (a) => {}
+              )
+  {
+    super(mass, pos, vel, isStatic, onCollide);
     this.rad = rad;
   }
 }
 
-class Rectangle extends Body {
-  constructor(mass, pos
-    , dim
-    , vel = new Vector(0, 0)
-    , isStatic = false) {
-    super(mass, pos, vel, isStatic);
+class Rectangle extends Body
+{
+  constructor ( mass , pos
+              , dim
+              
+              , vel = new Vector(0, 0)
+              , isStatic = false
+              , onCollide = (a) => {}
+              )
+  { 
+    super(mass, pos, vel, isStatic, onCollide);
     this.dim = dim;
   }
 
-  minkowskiDiff(r) {
+  minkowskiDiff(r)
+  {
     let vec = this.pos.sub(r.pos).sub(r.dim);
     return { pos: vec, dim: this.dim.add(r.dim) };
   }
 }
 
-class Physics {
-  static collide_ss(s1, s2, onCollide) {
+class Physics
+{
+  static collide_ss(s1, s2)
+  {
     if (s1.pos.sub(s2.pos).norm() > s1.rad + s2.rad)
       return {s1, s2};
     //  TODO
     return {s1, s2};
   }
 
-  static collide_rs(r, s, onCollide) {
-    return {r, s}
-  }
+  static collide_rs(r, s)
+  { return {r, s} }
 
-  static collide_rr(ra, rb, onCollide)
+  static collide_rr(ra, rb)
   {
     let s = rb.minkowskiDiff(ra);
 
@@ -123,43 +144,45 @@ class Physics {
       rb.vel = rb.vel.sub(n.mul(j / rb.mass));
     }
 
-    //  On appelle le callback de collision
-    onCollide({
+    //  On appelle les callbacks de collision
+    
+    collisionData = {
       impulsion: j,
       normal: n
-    });
+    };
+
+    a.onCollide(collisionData);
+    b.onCollide(collidionData);
   }
 
   /**
    *  Gère les collisions entre deux bodies quelconques
    */
-  static collide(a, b, onCollide) {
+  static collide(a, b)
+  {
     if (a instanceof Rectangle && b instanceof Rectangle)
-      Physics.collide_rr(a, b, onCollide);
+      Physics.collide_rr(a, b);
 
     if (a instanceof Sphere && b instanceof Sphere)
-      Physics.collide_ss(a, b, onCollide);
+      Physics.collide_ss(a, b);
 
     if (a instanceof Rectangle && b instanceof Sphere)
-      Physics.collide_rs(a, b, onCollide);
+      Physics.collide_rs(a, b);
 
     if (a instanceof Sphere && b instanceof Rectangle)
-      Physics.collide_rs(b, a, onCollide);
+      Physics.collide_rs(b, a);
   }
 
   static get G() { return 6.67e-11; }
 
-  constructor() {
-    // Masse en kg, distance en cm (1 px = 1 cm)
-    this.earth = new Sphere ( 5.972e24
-                            , new Vector(0, 12.742e8) , 0
-                            , Vector.fill(1) , true
-                            );
-  }
+  static get earth() { return new Sphere( 5.972e24
+                                        , new Vector(0, 12.742e8) , 0
+                                        , Vector.fill(1) , true
+                                        ); }
 
-  compute(bodies, dt, onCollide = () => {})
+  static compute(bodies, dt)
   {
-    let toCompute = bodies.concat(this.earth);
+    let toCompute = bodies.concat(Physics.earth);
 
     for (let i = 0; i < toCompute.length; i++)
     {
@@ -169,6 +192,8 @@ class Physics {
         let b = toCompute[j];
 
         Physics.collide(a, b, onCollide);
+
+        //  Calcul de la gravité
 
         // On veut pas de masse infinie
         if (Number.isFinite(a.mass) && Number.isFinite(b.mass))
@@ -194,9 +219,7 @@ class Physics {
         }
       }
       // Les objets statiques de bougent pas
-      if (!a.isStatic) {
-        a.pos = a.pos.add(a.vel.mul(dt));
-      }
+      if (!a.isStatic) a.pos = a.pos.add(a.vel.mul(dt));
     }
   }
 }

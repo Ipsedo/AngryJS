@@ -6,7 +6,7 @@ class Controls {
   constructor(canvas, context, onFire) {
     this.canvas = canvas;
 
-    this.sprite = new Arrow(context, [255, 255, 255]);
+    this.sprite = new Line(context, [255, 255, 255]);
 
     /**
      * Call back pour le tir de missile : function(pos, vel)

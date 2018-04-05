@@ -14,8 +14,6 @@ class Game {
     this.lastTime = Date.now();
     this.isPaused = true;
 
-    this.physics = new Physics();
-
     this.levelPath = levelPath;
 
     /**
@@ -101,7 +99,7 @@ class Game {
    * Fonction d'animation et de collision
    */
   anime(timeDelta) {
-    this.physics.compute(this.entities.map(e => e.body), timeDelta);
+    Physics.compute(this.entities.map(e => e.body), timeDelta);
     this.explosion.forEach((e) => e.update());
   }
 

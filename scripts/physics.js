@@ -146,13 +146,13 @@ class Physics
 
     //  On appelle les callbacks de collision
     
-    collisionData = {
+    let collisionData = {
       impulsion: j,
       normal: n
     };
 
-    a.onCollide(collisionData);
-    b.onCollide(collidionData);
+    ra.onCollide(collisionData);
+    rb.onCollide(collisionData);
   }
 
   /**
@@ -191,7 +191,7 @@ class Physics
       {
         let b = toCompute[j];
 
-        Physics.collide(a, b, onCollide);
+        Physics.collide(a, b);
 
         //  Calcul de la gravité
 

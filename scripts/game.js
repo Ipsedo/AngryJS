@@ -1,6 +1,6 @@
 class Game {
 
-  static get NbIterPerFram () { return Math.trunc(1000. / 60.); }
+  static get NbIterPerFrame () { return Math.trunc(1000. / 60.); }
 
   // Passer width et height du canvas + context ou juste canvas ?
   constructor(context, canvas, levelPath, onLose = (() => {})) {
@@ -93,7 +93,7 @@ class Game {
    * Fonction d'animation et de collision
    */
   anime() {
-    for (let i = 0; i < Game.NbIterPerFram; i++) {
+    for (let i = 0; i < Game.NbIterPerFrame; i++) {
       Physics.compute(this.entities.map(e => e.body), 1.);
     }
     this.explosion.forEach((e) => e.update());

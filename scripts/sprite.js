@@ -73,3 +73,19 @@ class Point extends Sprite {
     }
 
 }
+
+class Line extends Sprite {
+
+    constructor(context, color) {
+        super(context);
+        this.color = color;
+    }
+
+    draw(fstVec, dirVec) {
+        super.setColor(this.color);
+        this.context.beginPath();
+        this.context.moveTo(fstVec.x, fstVec.y);
+        this.context.lineTo(fstVec.x + dirVec.x, fstVec.y + dirVec.y);
+        this.context.stroke();
+    }
+}

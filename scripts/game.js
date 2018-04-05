@@ -1,4 +1,7 @@
 class Game {
+
+  static get NbIterPerFram () { return Math.trunc(1000. / 60.); }
+
   // Passer width et height du canvas + context ou juste canvas ?
   constructor(context, canvas, levelPath, onLose = (() => {})) {
     this.context = context;
@@ -25,22 +28,16 @@ class Game {
       that.render();
     });
 
-    /**
-     * definition du callback pour tirer le missile
-     */
-    let controlsCallBack = function (fst, vec) {
-      if (!that.isPaused) {
-        let rect = new Rectangle(3, fst, Vector.fill(50), vec, false);
-        let sprite = new RectSprite(context, rect, [0, 0, 255]);
-        let ball = new Entity(rect, sprite, 10, true);
-        that.entities.push(ball);
-      }
-    };
+    this.controls = new Controls(canvas, context, this.controlsCallBack.bind(this));
+  }
 
-    /**
-     * Pas besoin de le garder en tant qu'attribut
-     */
-    new Controls(canvas, controlsCallBack, 2);
+  controlsCallBack(fst, vec) {
+    if (!this.isPaused) {
+      let rect = new Rectangle(3, fst, Vector.fill(50), vec, false);
+      let sprite = new RectSprite(this.context, rect, [0, 0, 255]);
+      let ball = new Entity(rect, sprite, 10, true);
+      this.entities.push(ball);
+    }
   }
 
   reloadLevel() {
@@ -95,8 +92,10 @@ class Game {
   /**
    * Fonction d'animation et de collision
    */
-  anime(timeDelta) {
-    Physics.compute(this.entities.map(e => e.body), timeDelta);
+  anime() {
+    for (let i = 0; i < Game.NbIterPerFram; i++) {
+      Physics.compute(this.entities.map(e => e.body), 1.);
+    }
     this.explosion.forEach((e) => e.update());
   }
 
@@ -108,7 +107,7 @@ class Game {
   update() {
     if (!this.isPaused) {
       this.removeDeadEntity();
-      this.anime(1000. / 60.);
+      this.anime();
       this.render();
       requestAnimationFrame(this.update.bind(this));
     }
@@ -122,6 +121,7 @@ class Game {
 
     this.entities.forEach((e) => e.sprite.draw());
     this.explosion.forEach((e) => e.draw());
+    this.controls.draw();
   }
 }
 

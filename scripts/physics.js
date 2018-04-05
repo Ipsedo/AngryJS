@@ -190,8 +190,8 @@ class Physics
         if (Number.isFinite(a.mass) && Number.isFinite(b.mass))
         {
           // Les objets statiques ne subissent pas de force
-          if (!a.isStatic) a.vel = a.vel.add(gravity(a, b).mul(dt));
-          if (!b.isStatic) b.vel = b.vel.add(gravity(b, a).mul(dt));
+          if (!a.isStatic) a.vel = a.vel.add(Physics.gravity(a, b).mul(dt));
+          if (!b.isStatic) b.vel = b.vel.add(Physics.gravity(b, a).mul(dt));
         }
       }
       // Les objets statiques de bougent pas
@@ -201,7 +201,7 @@ class Physics
 
 
   //  Calcule la gravité subie par a de b
-  gravity(a, b)
+  static gravity(a, b)
   { 
     let uAB = b.pos.sub(a.pos);
     return uAB.normalize().mul((Physics.G * b.mass) / Math.pow(uAB.norm(), 2));

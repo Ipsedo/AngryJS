@@ -36,13 +36,13 @@ class Controls {
   }
 
   static getPointerPos(e) {
-    let x;
-    let y;
-    if (typeof e.clientX !== 'undefined') {
+    let x = 0.;
+    let y = 0.;
+    if (e.type == 'mousedown' || e.type == 'mouseup' || e.type == 'mousemove') {
       // mouseup mousedown mousemove events
       x = e.clientX;
       y = e.clientY;
-    } else {
+    } else if (e.type == 'touchstart' || e.type == 'touchmove' || e.type == 'touchend') {
       // touch
       x = e.changedTouches[0].pageX;
       y = e.changedTouches[0].pageY;

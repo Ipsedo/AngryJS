@@ -40,10 +40,15 @@ class LevelLoader {
      *
      * // Entité
      *
+     * attributes = {
+     *  life   : Number,
+     *  friable : bool
+     * }
+     *
      * entity = {
      *  body   : body,
      *  sprite : sprite,
-     *  life   : Number
+     *  attributes : attributes
      * }
      *
      * entities = [entity, ..., entity]
@@ -127,7 +132,16 @@ class LevelLoader {
             sprite = new CircleSprite(this.context, body, entityJSON.sprite.color);
 
         }
-        return new Entity(body, sprite, entityJSON.life);
+
+        if (!entityJSON.hasOwnProperty("attributes")) {
+          alert("Unrecognized entity !");
+          return;
+        }
+
+        let isFriable = entityJSON.attributes.friable;
+        let life = entityJSON.attributes.life;
+
+        return new Entity(body, sprite, life, isFriable);
     }
 
     parseJSON(JSONstr) {

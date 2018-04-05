@@ -30,15 +30,33 @@ class Controls {
     /**
      * Touch callBack
      */
-    this.canvas.addEventListener("touchstart", this.draggingStart.bind(this));
-    this.canvas.addEventListener("touchend", this.draggingEnd.bind(this));
-    this.canvas.addEventListener("touchmove", this.dragging.bind(this));
+    this.canvas.addEventListener("touchstart", this.draggingStart.bind(this), false);
+    this.canvas.addEventListener("touchend", this.draggingEnd.bind(this), false);
+    this.canvas.addEventListener("touchmove", this.dragging.bind(this), false);
+  }
+
+  static getPointerPos(e) {
+    let x;
+    let y;
+    if (typeof e.clientX !== 'undefined') {
+      // mouseup mousedown mousemove events
+      x = e.clientX;
+      y = e.clientY;
+    } else {
+      // touch
+      x = e.changedTouches[0].pageX;
+      y = e.changedTouches[0].pageY;
+    }
+    return { x : x, y : y };
   }
 
   dragging(e) {
     // Dernière position du pointeur
-    let finalPos = new Vector(this.canvas.width * e.clientX / this.canvas.clientWidth,
-      this.canvas.height * e.clientY / this.canvas.clientHeight);
+    let pos = Controls.getPointerPos(e);
+
+    let finalPos = new Vector(this.canvas.width * pos.x / this.canvas.clientWidth,
+      this.canvas.height * pos.y / this.canvas.clientHeight);
+
 
     // Vecteur de la dernière position à la première
     let launchVec = this.fstPos.sub(finalPos);
@@ -62,8 +80,11 @@ class Controls {
    */
   draggingStart(e) {
     this.startingDrag = true;
-    this.fstPos.x = this.canvas.width * e.clientX / this.canvas.clientWidth;
-    this.fstPos.y = this.canvas.height * e.clientY / this.canvas.clientHeight;
+
+    let pos = Controls.getPointerPos(e);
+
+    this.fstPos.x = this.canvas.width * pos.x / this.canvas.clientWidth;
+    this.fstPos.y = this.canvas.height * pos.y / this.canvas.clientHeight;
     this.launchVec = Vector.fill(0.)
   }
 

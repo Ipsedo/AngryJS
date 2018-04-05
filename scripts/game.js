@@ -1,7 +1,6 @@
 class Game {
   // Passer width et height du canvas + context ou juste canvas ?
-  constructor(context, canvas, levelPath, onLose = (() => {
-  })) {
+  constructor(context, canvas, levelPath, onLose = (() => {})) {
     this.context = context;
     this.windowW = canvas.width;
     this.windowH = canvas.height;

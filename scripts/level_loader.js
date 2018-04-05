@@ -11,45 +11,45 @@ class LevelLoader {
    *
    * Infos de base pour un body :
    * body_infos = {
-     *  mass     : Number,
-     *  pos      : [Number, Number],
-     *  vel      : [Number, Number],
-     *  isStatic : Bool
-     * }
+   *  mass     : Number,
+   *  pos      : [Number, Number],
+   *  vel      : [Number, Number],
+   *  isStatic : Bool
+   * }
    *
    * Distinction rectangle / cercle :
    * misc = {
-     *  isRect : Bool,
-     *  rad    : null             / Number,
-     *  dim    : [Number, Number] / null,
-     * }
+   *  isRect : Bool,
+   *  rad    : null             / Number,
+   *  dim    : [Number, Number] / null,
+   * }
    *
    * Regroupement des deux :
    * body = {
-     *  infos           : body_infos,
-     *  additional_info : misc
-     * }
+   *  infos           : body_infos,
+   *  additional_info : misc
+   * }
    *
    * // Graphisme
    *
    * Soit une image si image != null, soit un cercle ou rectangle (color != null) :
    * sprite = {
-     *  img_uri : string / null,
-     *  color   : null   / [Number, Number, Number]
-     * }
+   *  img_uri : string / null,
+   *  color   : null   / [Number, Number, Number]
+   * }
    *
    * // Entité
    *
    * attributes = {
-     *  life   : Number,
-     *  friable : bool
-     * }
+   *  life   : Number,
+   *  friable : bool
+   * }
    *
    * entity = {
-     *  body   : body,
-     *  sprite : sprite,
-     *  attributes : attributes
-     * }
+   *  body   : body,
+   *  sprite : sprite,
+   *  attributes : attributes
+   * }
    *
    * entities = [entity, ..., entity]
    *

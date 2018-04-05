@@ -67,12 +67,6 @@ class Controls {
     this.launchVec = Vector.fill(0.)
   }
 
-  /**
-   * Si il y a eu drag and drop,
-   * on récupère les vecteur de fin de drag,
-   * on calcul le vecteur resultant du début du drag à la fin
-   * On normalise ce vecteur avec une norme limite
-   */
   draggingEnd(e) {
     if (this.launchVec.norm() > 0) {
       this.onFire(this.fstPos, this.launchVec);

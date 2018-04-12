@@ -16,8 +16,8 @@
     },
 
     "sprite" : {
-      "img_uri" : null,
-      "color"   : [255, 0, 0]
+      "img_uri" : "./res/pig_96x104.png",
+      "color"   : [255, 218, 185]
     },
 
     "attributes" : {
@@ -44,8 +44,8 @@
     },
 
     "sprite" : {
-      "img_uri" : null,
-      "color"   : [255, 0, 0]
+      "img_uri" : "./res/pig_96x104.png",
+      "color"   : [255, 218, 185]
     },
 
     "attributes" : {

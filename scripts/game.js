@@ -36,7 +36,7 @@ class Game {
   controlsCallBack(fst, vec) {
     if (!this.isPaused) {
       let rect = new Rectangle(3, fst, Vector.fill(50), vec, false);
-      let sprite = new RectSprite(this.context, rect, [0, 0, 255]);
+      let sprite = new ImageRectSprite(this.context,rect, "./res/bird_1.png", [0, 255, 0]);
       let ball = new Entity(rect, sprite, 10, true);
       this.entities.push(ball);
     }

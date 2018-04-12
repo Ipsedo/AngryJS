@@ -124,7 +124,7 @@ class LevelLoader {
     if (body instanceof Rectangle) {
       if (entityJSON.sprite.img_uri !== null) {
         let uri = entityJSON.sprite.img_uri;
-        sprite = new ImageRectSprite(this.context, body, uri);
+        sprite = new ImageRectSprite(this.context, body, uri, entityJSON.sprite.color);
       } else {
         sprite = new RectSprite(this.context, body, entityJSON.sprite.color);
       }

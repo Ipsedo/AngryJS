@@ -1,9 +1,11 @@
-class Controls {
+class Controls
+{
 
-  static get LaunchCoeff () { return 1e-2; }
-  static get MaxLaunchNorm () { return 2; }
+  static get LaunchCoeff    () { return 1e-2; }
+  static get MaxLaunchNorm  () { return 2; }
 
-  constructor(canvas, context, onFire) {
+  constructor(canvas, context, onFire)
+  {
     this.canvas = canvas;
 
     this.sprite = new Line(context, [255, 255, 255]);
@@ -24,25 +26,37 @@ class Controls {
      * Mouse callBack
      */
     this.canvas.onmousedown = this.draggingStart.bind(this);
-    this.canvas.onmouseup = this.draggingEnd.bind(this);
+    this.canvas.onmouseup   = this.draggingEnd.bind(this);
     this.canvas.onmousemove = this.dragging.bind(this);
 
     /**
      * Touch callBack
      */
-    this.canvas.addEventListener("touchstart", this.draggingStart.bind(this), false);
-    this.canvas.addEventListener("touchend", this.draggingEnd.bind(this), false);
-    this.canvas.addEventListener("touchmove", this.dragging.bind(this), false);
+    this.canvas.addEventListener("touchstart",
+      this.draggingStart.bind(this), false);
+
+    this.canvas.addEventListener("touchend",
+      this.draggingEnd.bind(this), false);
+
+    this.canvas.addEventListener("touchmove",
+      this.dragging.bind(this), false);
+
   }
 
-  static getPointerPos(e) {
+  static getPointerPos(e)
+  {
     let x = 0.;
     let y = 0.;
     if (e.type === 'mousedown' || e.type === 'mouseup' || e.type === 'mousemove') {
       // mouseup mousedown mousemove events
       x = e.clientX;
       y = e.clientY;
-    } else if (e.type === 'touchstart' || e.type === 'touchmove' || e.type === 'touchend') {
+    }
+    else if (   e.type === 'touchstart'
+            ||  e.type === 'touchmove'
+            ||  e.type === 'touchend'
+            )
+    {
       // touch
       x = e.changedTouches[0].pageX;
       y = e.changedTouches[0].pageY;
@@ -50,12 +64,14 @@ class Controls {
     return { x : x, y : y };
   }
 
-  dragging(e) {
+  dragging(e)
+  {
     // Dernière position du pointeur
     let pos = Controls.getPointerPos(e);
 
-    let finalPos = new Vector(this.canvas.width * pos.x / this.canvas.clientWidth,
-      this.canvas.height * pos.y / this.canvas.clientHeight);
+    let finalPos = new Vector (
+      this.canvas.width * pos.x / this.canvas.clientWidth,
+      this.canvas.height * pos.y / this.canvas.clientHeight );
 
 
     // Vecteur de la dernière position à la première
@@ -67,7 +83,8 @@ class Controls {
     // On limite cette norme
     norm = norm < Controls.MaxLaunchNorm ? norm : Controls.MaxLaunchNorm;
 
-    // Le vecteur de tir final est normalisé puis multiplié par la norme calculée avant
+    // Le vecteur de tir final est normalisé puis multiplié
+    //  par la norme calculée avant
     launchVec = launchVec.normalize().mul(norm);
 
     // Assignation vecteur pour le dessin du control
@@ -78,26 +95,26 @@ class Controls {
    * On récupère la position intitiale
    * et on passe à vrai la variable indiquant le début du drag and drop
    */
-  draggingStart(e) {
+  draggingStart(e)
+  {
     this.startingDrag = true;
 
     let pos = Controls.getPointerPos(e);
 
-    this.fstPos.x = this.canvas.width * pos.x / this.canvas.clientWidth;
+    this.fstPos.x = this.canvas.width  * pos.x / this.canvas.clientWidth;
     this.fstPos.y = this.canvas.height * pos.y / this.canvas.clientHeight;
     this.launchVec = Vector.fill(0.)
   }
 
   draggingEnd(e) {
-    if (this.launchVec.norm() > 0 && this.startingDrag) {
+    if (this.launchVec.norm() > 0 && this.startingDrag)
       this.onFire(this.fstPos, this.launchVec);
-    }
+
     this.startingDrag = false;
   }
 
   draw() {
-    if(this.startingDrag) {
+    if(this.startingDrag)
       this.sprite.draw(this.fstPos, this.launchVec.div(Controls.LaunchCoeff));
-    }
   }
 }

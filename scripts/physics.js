@@ -1,9 +1,14 @@
+const airFriction   = .001;
+const minSpeed      = .01;
+const minCompSpeed  = .001;
+const elasticity    = .85;
+
 class Body
 {
   constructor ( mass , pos
               , vel = new Vector(0, 0)
               , isStatic = false
-             
+
               //  Callback de collision
               , onCollide = (a) => {}
               )
@@ -13,18 +18,18 @@ class Body
     this.mass = mass;
 
     this.isStatic = isStatic;
-    
+
     this.onCollide = onCollide;
   }
 
-  static get elasticity() { return 1.; }
+  static get elasticity() { return elasticity; }
 }
 
 class Sphere extends Body
 {
   constructor ( mass, pos
               , rad
-              
+
               , vel = new Vector(0, 0)
               , isStatic = false
               , onCollide = (a) => {}
@@ -39,12 +44,12 @@ class Rectangle extends Body
 {
   constructor ( mass , pos
               , dim
-              
+
               , vel = new Vector(0, 0)
               , isStatic = false
               , onCollide = (a) => {}
               )
-  { 
+  {
     super(mass, pos, vel, isStatic, onCollide);
     this.dim = dim;
   }
@@ -129,7 +134,7 @@ class Physics
     let j = -(1. + e) * Vector.dot(v, n) / ((1. / ra.mass) + (1. / rb.mass));
 
     //  MàJ de la position & vitesse
-    
+
     if (!ra.isStatic)
     {
       ra.pos = ra.pos.add(n.mul(nA));
@@ -143,7 +148,7 @@ class Physics
     }
 
     //  On appelle les callbacks de collision
-    
+
     let collisionData = {
       impulsion: j,
       normal: n
@@ -178,6 +183,11 @@ class Physics
     for (let i = 0; i < toCompute.length; i++)
     {
       let a = toCompute[i];
+
+      /*
+       *    CALCUL DE LA GRAVITÉ
+       */
+
       for (let j = i + 1; j < toCompute.length; j++)
       {
         let b = toCompute[j];
@@ -194,15 +204,43 @@ class Physics
           if (!b.isStatic) b.vel = b.vel.add(Physics.gravity(b, a).mul(dt));
         }
       }
+
+      /*
+       *    CALCUL DE LA FRICTION
+       */
+
+      let vel2            = Math.pow(a.vel.norm(), 2);
+      let friction_force  = a.vel.normalize().mul(- vel2 * airFriction);
+      let friction_acc    = friction_force.div(a.mass);
+
+      if(!a.isStatic && a.mass != 0) a.vel = a.vel.add(friction_acc.mul(dt));
+
+      /*
+       *    "POLISSAGE" DES MOUVEMENTS
+       */
+
+      //  On n'applique pas la vélocité passé un certain seuil
+      let nSpeed = a.vel.norm() > minSpeed ? a.vel.mul(dt) : new Vector(0, 0);
+
+      //  On n'applique pas la vélocité *par composante* passé un certain seuil
+      let nnSpeed = new Vector(
+        Math.pow(nSpeed.x, 2) > minCompSpeed ? nSpeed.x : 0,
+        Math.pow(nSpeed.y, 2) > minCompSpeed ? nSpeed.y : 0,
+        );
+
+      /*
+       *    APPLICATION DE LA VÉLOCITÉ
+       */
+
       // Les objets statiques de bougent pas
-      if (!a.isStatic) a.pos = a.pos.add(a.vel.mul(dt));
+      if (!a.isStatic) a.pos = a.pos.add(nnSpeed);
     }
   }
 
 
   //  Calcule la gravité subie par a de b
   static gravity(a, b)
-  { 
+  {
     let uAB = b.pos.sub(a.pos);
     return uAB.normalize().mul((Physics.G * b.mass) / Math.pow(uAB.norm(), 2));
   }

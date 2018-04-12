@@ -1,3 +1,5 @@
+const dt = 1.;
+
 class Game {
 
   static get NbIterPerFrame () { return Math.trunc(1000. / 60.); }
@@ -94,7 +96,7 @@ class Game {
    */
   anime() {
     for (let i = 0; i < Game.NbIterPerFrame; i++) {
-      Physics.compute(this.entities.map(e => e.body), 1.);
+      Physics.compute(this.entities.map(e => e.body), dt);
     }
     this.explosion.forEach((e) => e.update());
   }

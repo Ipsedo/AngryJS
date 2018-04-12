@@ -1,7 +1,7 @@
 class Controls {
 
   static get LaunchCoeff () { return 1e-2; }
-  static get MaxLaunchNorm () { return 2; }
+  static get MaxLaunchNorm () { return 1.3; }
 
   constructor(canvas, context, onFire) {
     this.canvas = canvas;
@@ -97,7 +97,9 @@ class Controls {
 
   draw() {
     if(this.startingDrag) {
-      this.sprite.draw(this.fstPos, this.launchVec.div(Controls.LaunchCoeff));
+      // On repasse le vecteur de launch a sa valeur intitale (division par launchCoeff)
+      // On divise par 2 car on veut que la ligne du rendu soit 2 fois plus longues que l'ecart avec la souris
+      this.sprite.draw(this.fstPos, this.launchVec.div(Controls.LaunchCoeff / 2.0));
     }
   }
 }

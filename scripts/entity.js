@@ -33,6 +33,6 @@ class Entity {
   hit(force) {
     // Force de collision recupérée comment ?
     let dmg = force * damageMult;
-    this.life -= force >= minDamage ? force : 0;
+    this.life -= force >= minDamage ? dmg : 0;
   }
 }

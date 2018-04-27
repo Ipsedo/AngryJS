@@ -25,21 +25,6 @@ class Body
   static get elasticity() { return elasticity; }
 }
 
-class Sphere extends Body
-{
-  constructor ( mass, pos
-              , rad
-
-              , vel = new Vector(0, 0)
-              , isStatic = false
-              , onCollide = (a) => {}
-              )
-  {
-    super(mass, pos, vel, isStatic, onCollide);
-    this.rad = rad;
-  }
-}
-
 class Rectangle extends Body
 {
   constructor ( mass , pos
@@ -63,17 +48,6 @@ class Rectangle extends Body
 
 class Physics
 {
-  static collide_ss(s1, s2)
-  {
-    if (s1.pos.sub(s2.pos).norm() > s1.rad + s2.rad)
-      return {s1, s2};
-    //  TODO
-    return {s1, s2};
-  }
-
-  static collide_rs(r, s)
-  { return {r, s} }
-
   static collide_rr(ra, rb)
   {
     let s = rb.minkowskiDiff(ra);
@@ -163,17 +137,11 @@ class Physics
    */
   static collide(a, b)
   {
+    /**
+     * On garde cette condition -> earth juste un body, pas besoin de collision avec
+     */
     if (a instanceof Rectangle && b instanceof Rectangle)
       Physics.collide_rr(a, b);
-
-    if (a instanceof Sphere && b instanceof Sphere)
-      Physics.collide_ss(a, b);
-
-    if (a instanceof Rectangle && b instanceof Sphere)
-      Physics.collide_rs(a, b);
-
-    if (a instanceof Sphere && b instanceof Rectangle)
-      Physics.collide_rs(b, a);
   }
 
   static compute(bodies, dt)
@@ -213,7 +181,7 @@ class Physics
       let friction_force  = a.vel.normalize().mul(- vel2 * airFriction);
       let friction_acc    = friction_force.div(a.mass);
 
-      if(!a.isStatic && a.mass != 0) a.vel = a.vel.add(friction_acc.mul(dt));
+      if(!a.isStatic && a.mass !== 0) a.vel = a.vel.add(friction_acc.mul(dt));
 
       /*
        *    "POLISSAGE" DES MOUVEMENTS
@@ -246,8 +214,10 @@ class Physics
   }
 
   static get G() { return 6.67e-11; }
-  static get earth() { return new Sphere( 5.972e24
-                                        , new Vector(0, 12.742e8) , 0
-                                        , Vector.fill(1) , true
-                                        ); }
+  static get earth() { return new Body( 5.972e24,
+      new Vector(0, 12.742e8),
+      Vector.fill(0.),
+      true
+    );
+  }
 }

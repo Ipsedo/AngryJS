@@ -2,18 +2,11 @@
   "entities" : [
     {
       "body" : {
-        "infos" : {
-          "mass" : 10,
-          "pos"  : [100, 100],
-          "vel"  : [0.2, 0.1],
-          "isStatic" : false
-        },
-
-        "additional_info" : {
-          "isRect" : true,
-          "rad"    : null,
-          "dim"    : [100, 100]
-        }
+        "mass" : 10,
+        "pos"  : [100, 100],
+        "vel"  : [0.2, 0.1],
+        "isStatic" : false,
+        "dim"    : [100, 100]
       },
 
       "sprite" : {
@@ -31,18 +24,11 @@
 
     {
       "body" : {
-        "infos" : {
-          "mass" : 10,
-          "pos"  : [500, 100],
-          "vel"  : [-0.25, -0.2],
-          "isStatic" : false
-        },
-
-        "additional_info" : {
-          "isRect" : true,
-          "rad"    : null,
-          "dim"    : [100, 100]
-        }
+        "mass" : 10,
+        "pos"  : [500, 100],
+        "vel"  : [-0.25, -0.2],
+        "isStatic" : false,
+        "dim"    : [100, 100]
       },
 
       "sprite" : {
@@ -60,18 +46,11 @@
 
     {
       "body" : {
-        "infos" : {
-          "mass" : null,
-          "pos"  : [0, -10],
-          "vel"  : [0.0, 0.0],
-          "isStatic" : true
-        },
-
-        "additional_info" : {
-          "isRect" : true,
-          "rad"    : null,
-          "dim"    : [1920, 20]
-        }
+        "mass" : null,
+        "pos"  : [0, -10],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : true,
+        "dim"    : [1920, 20]
       },
 
       "sprite" : {
@@ -89,18 +68,11 @@
 
     {
       "body" : {
-        "infos" : {
-          "mass" : null,
-          "pos"  : [0, 1070],
-          "vel"  : [0.0, 0.0],
-          "isStatic" : true
-        },
-
-        "additional_info" : {
-          "isRect" : true,
-          "rad"    : null,
-          "dim"    : [1920, 20]
-        }
+        "mass" : null,
+        "pos"  : [0, 1070],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : true,
+        "dim"    : [1920, 20]
       },
 
       "sprite" : {
@@ -118,18 +90,11 @@
 
     {
       "body" : {
-        "infos" : {
-          "mass" : null,
-          "pos"  : [-10, 10],
-          "vel"  : [0.0, 0.0],
-          "isStatic" : true
-        },
-
-        "additional_info" : {
-          "isRect" : true,
-          "rad"    : null,
-          "dim"    : [20, 1060]
-        }
+        "mass" : null,
+        "pos"  : [-10, 10],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : true,
+        "dim"    : [20, 1060]
       },
 
       "sprite" : {
@@ -147,18 +112,11 @@
 
     {
       "body" : {
-        "infos" : {
-          "mass" : null,
-          "pos"  : [1910, 10],
-          "vel"  : [0.0, 0.0],
-          "isStatic" : true
-        },
-
-        "additional_info" : {
-          "isRect" : true,
-          "rad"    : null,
-          "dim"    : [20, 1060]
-        }
+        "mass" : null,
+        "pos"  : [1910, 10],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : true,
+        "dim"    : [20, 1060]
       },
 
       "sprite" : {
@@ -175,18 +133,11 @@
     },
     {
       "body" : {
-        "infos" : {
-          "mass" : 100,
-          "pos"  : [1000, 1020],
-          "vel"  : [0.0, 0.0],
-          "isStatic" : false
-        },
-
-        "additional_info" : {
-          "isRect" : true,
-          "rad"    : null,
-          "dim"    : [50, 50]
-        }
+        "mass" : 100,
+        "pos"  : [1000, 1020],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : false,
+        "dim"    : [50, 50]
       },
 
       "sprite" : {
@@ -203,18 +154,11 @@
     },
     {
       "body" : {
-        "infos" : {
-          "mass" : 100,
-          "pos"  : [800, 1020],
-          "vel"  : [0.0, 0.0],
-          "isStatic" : false
-        },
-
-        "additional_info" : {
-          "isRect" : true,
-          "rad"    : null,
-          "dim"    : [50, 50]
-        }
+        "mass" : 100,
+        "pos"  : [800, 1020],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : false,
+        "dim"    : [50, 50]
       },
 
       "sprite" : {

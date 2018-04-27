@@ -83,14 +83,7 @@ class Game {
     let that = this;
     this.entities = this.entities.filter((e) => {
       if (!e.isAlive()) {
-        let middle;
-        if (e.body instanceof Sphere) {
-          middle = e.body.pos;
-        } else if (e.body instanceof Rectangle) {
-          middle = e.body.pos.add(e.body.dim.div(2));
-        } else {
-          alert("Unrecognized Body !");
-        }
+        let middle = e.body.pos.add(e.body.dim.div(2));
         // TODO intensité explosion selon masse et taille
         let ex = new Explosion(that.context, middle, e.sprite.color, 20);
         that.explosion.push(ex);

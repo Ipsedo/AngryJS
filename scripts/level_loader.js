@@ -10,25 +10,14 @@ class LevelLoader {
    * // Physique
    *
    * Infos de base pour un body :
-   * body_infos = {
+   * body = {
    *  mass     : Number,
    *  pos      : [Number, Number],
    *  vel      : [Number, Number],
-   *  isStatic : Bool
+   *  isStatic : Bool,
+   *  dim    : [Number, Number]
    * }
-   *
-   * Distinction rectangle / cercle :
-   * misc = {
-   *  isRect : Bool,
-   *  rad    : null             / Number,
-   *  dim    : [Number, Number] / null,
-   * }
-   *
-   * Regroupement des deux :
-   * body = {
-   *  infos           : body_infos,
-   *  additional_info : misc
-   * }
+   * si mass null -> Infinity
    *
    * // Graphisme
    *
@@ -79,37 +68,16 @@ class LevelLoader {
     xhr.send();
   }
 
-  static parseBody(bodyJSON) {
-    if (!bodyJSON.infos) {
-      alert("Unrecognized body !");
-      return;
-    }
-    let infos = bodyJSON.infos;
+  static parseBody(body) {
+
     //TODO tester si les champs de infos sont bien définis
-    let mass = infos.mass === null ? Infinity : infos.mass; // On peut pas mettre Infinity dans JSON :,(
-    let pos = new Vector(infos.pos[0], infos.pos[1]);
-    let vel = new Vector(infos.vel[0], infos.vel[1]);
-    let isStatic = infos.isStatic;
+    let mass = body.mass === null ? Infinity : body.mass; // On peut pas mettre Infinity dans JSON :,(
+    let pos = new Vector(body.pos[0], body.pos[1]);
+    let vel = new Vector(body.vel[0], body.vel[1]);
+    let dim = new Vector(body.dim[0], body.dim[1]);
+    let isStatic = body.isStatic;
 
-    if (!bodyJSON.additional_info) {
-      alert("Unrecognized body !");
-      return;
-    }
-
-    let misc = bodyJSON.additional_info;
-
-    if (misc.hasOwnProperty("isRect")) {
-      //TODO tester si dim et rad sont bien défini
-      if (misc.isRect) {
-        let dim = new Vector(misc.dim[0], misc.dim[1]);
-        return new Rectangle(mass, pos, dim, vel, isStatic);
-      } else {
-        return new Sphere(mass, pos, misc.rad, vel, isStatic);
-      }
-    } else {
-      alert("Unrecognized body !");
-    }
-
+    return new Rectangle(mass, pos, dim, vel, isStatic);
   }
 
   parseEntity(entityJSON) {
@@ -125,16 +93,11 @@ class LevelLoader {
     }
     let sprite;
     //TODO tester si color et image sont bien definis
-    if (body instanceof Rectangle) {
-      if (entityJSON.sprite.img_uri !== null) {
-        let uri = entityJSON.sprite.img_uri;
-        sprite = new ImageRectSprite(this.context, body, uri, entityJSON.sprite.color);
-      } else {
-        sprite = new RectSprite(this.context, body, entityJSON.sprite.color);
-      }
+    if (entityJSON.sprite.img_uri !== null) {
+      let uri = entityJSON.sprite.img_uri;
+      sprite = new ImageRectSprite(this.context, body, uri, entityJSON.sprite.color);
     } else {
-      sprite = new CircleSprite(this.context, body, entityJSON.sprite.color);
-
+      sprite = new RectSprite(this.context, body, entityJSON.sprite.color);
     }
 
     if (!entityJSON.hasOwnProperty("attributes")) {

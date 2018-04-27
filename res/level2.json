@@ -1,0 +1,261 @@
+{
+  "entities" : [
+    {
+      "body" : {
+        "infos" : {
+          "mass" : 10,
+          "pos"  : [900, 750],
+          "vel"  : [0.0, 0.0],
+          "isStatic" : false
+        },
+
+        "additional_info" : {
+          "isRect" : true,
+          "rad"    : null,
+          "dim"    : [100, 100]
+        }
+      },
+
+      "sprite" : {
+        "img_uri" : "./res/pig_96x104.png",
+        "color"   : [255, 218, 185]
+      },
+
+      "attributes" : {
+        "name" : "Rectangle pour test gravité",
+        "life" : 10,
+        "friable" : true,
+        "isEnnemy" : true
+      }
+    },
+
+    {
+      "body" : {
+        "infos" : {
+          "mass" : 10,
+          "pos"  : [900, 970],
+          "vel"  : [0.0, 0.0],
+          "isStatic" : false
+        },
+
+        "additional_info" : {
+          "isRect" : true,
+          "rad"    : null,
+          "dim"    : [100, 100]
+        }
+      },
+
+      "sprite" : {
+        "img_uri" : "./res/pig_96x104.png",
+        "color"   : [255, 218, 185]
+      },
+
+      "attributes" : {
+        "name" : "Rectangle pour test gravité",
+        "life" : 10,
+        "friable" : true,
+        "isEnnemy" : true
+      }
+    },
+
+    {
+      "body" : {
+        "infos" : {
+          "mass" : null,
+          "pos"  : [0, -10],
+          "vel"  : [0.0, 0.0],
+          "isStatic" : true
+        },
+
+        "additional_info" : {
+          "isRect" : true,
+          "rad"    : null,
+          "dim"    : [1920, 20]
+        }
+      },
+
+      "sprite" : {
+        "img_uri" : null,
+        "color"   : [0, 0, 0]
+      },
+
+      "attributes" : {
+        "name" : "Mur haut",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    },
+
+    {
+      "body" : {
+        "infos" : {
+          "mass" : null,
+          "pos"  : [0, 1070],
+          "vel"  : [0.0, 0.0],
+          "isStatic" : true
+        },
+
+        "additional_info" : {
+          "isRect" : true,
+          "rad"    : null,
+          "dim"    : [1920, 20]
+        }
+      },
+
+      "sprite" : {
+        "img_uri" : null,
+        "color"   : [0, 0, 0]
+      },
+
+      "attributes" : {
+        "name" : "Mur bas",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    },
+
+    {
+      "body" : {
+        "infos" : {
+          "mass" : null,
+          "pos"  : [-10, 10],
+          "vel"  : [0.0, 0.0],
+          "isStatic" : true
+        },
+
+        "additional_info" : {
+          "isRect" : true,
+          "rad"    : null,
+          "dim"    : [20, 1060]
+        }
+      },
+
+      "sprite" : {
+        "img_uri" : null,
+        "color"   : [0, 0, 0]
+      },
+
+      "attributes" : {
+        "name" : "Mur gauche",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    },
+
+    {
+      "body" : {
+        "infos" : {
+          "mass" : null,
+          "pos"  : [1910, 10],
+          "vel"  : [0.0, 0.0],
+          "isStatic" : true
+        },
+
+        "additional_info" : {
+          "isRect" : true,
+          "rad"    : null,
+          "dim"    : [20, 1060]
+        }
+      },
+
+      "sprite" : {
+        "img_uri" : null,
+        "color"   : [0, 0, 0]
+      },
+
+      "attributes" : {
+        "name" : "Mur droit",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    },
+    {
+      "body" : {
+        "infos" : {
+          "mass" : 100,
+          "pos"  : [1100, 870],
+          "vel"  : [0.0, 0.0],
+          "isStatic" : false
+        },
+
+        "additional_info" : {
+          "isRect" : true,
+          "rad"    : null,
+          "dim"    : [50, 200]
+        }
+      },
+
+      "sprite" : {
+        "img_uri" : "./res/wall_1.png",
+        "color"   : [200, 150, 0]
+      },
+
+      "attributes" : {
+        "name" : "Muraille1",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    },
+    {
+      "body" : {
+        "infos" : {
+          "mass" : 100,
+          "pos"  : [800, 870],
+          "vel"  : [0.0, 0.0],
+          "isStatic" : false
+        },
+
+        "additional_info" : {
+          "isRect" : true,
+          "rad"    : null,
+          "dim"    : [50, 200]
+        }
+      },
+
+      "sprite" : {
+        "img_uri" : "./res/wall_1.png",
+        "color"   : [200, 150, 0]
+      },
+
+      "attributes" : {
+        "name" : "Muraille2",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    },
+    {
+      "body" : {
+        "infos" : {
+          "mass" : 100,
+          "pos"  : [800, 850],
+          "vel"  : [0.0, 0.0],
+          "isStatic" : false
+        },
+
+        "additional_info" : {
+          "isRect" : true,
+          "rad"    : null,
+          "dim"    : [350, 20]
+        }
+      },
+
+      "sprite" : {
+        "img_uri" : "./res/wood_1.png",
+        "color"   : [200, 150, 0]
+      },
+
+      "attributes" : {
+        "name" : "Muraille3",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    }
+  ]
+}

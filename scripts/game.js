@@ -33,6 +33,12 @@ class Game {
     this.controls = new Controls(canvas, context, this.controlsCallBack.bind(this));
   }
 
+  win() {
+    this.context.font = "25vh Arial";
+    this.context.fillStyle = "rgb(255, 0, 0)";
+    this.context.fillText("Game Done !", this.windowW / 8, this.windowH / 2);
+  }
+
   controlsCallBack(fst, vec) {
     if (!this.isPaused) {
       let rect = new Rectangle(3, fst, Vector.fill(50), vec, false);
@@ -111,6 +117,13 @@ class Game {
       this.removeDeadEntity();
       this.anime();
       this.render();
+
+      if (this.entities.filter(e => e.isEnnemy).length === 0) {
+        setTimeout(() => {
+          this.win();
+          this.isPaused = true;
+        }, 500);
+      }
       requestAnimationFrame(this.update.bind(this));
     }
   }

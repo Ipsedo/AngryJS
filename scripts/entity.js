@@ -1,3 +1,6 @@
+const damageMult = 1e-1;
+const minDamage = 1.;
+
 /**
  * Monkey patching sur body pour gestion vie entité (entité mortelle) ?
  *  si body.hasOwnProperty("hit") :
@@ -29,7 +32,7 @@ class Entity {
 
   hit(force) {
     // Force de collision recupérée comment ?
-    let coef = 1e-1;
-    this.life -= force * coef;
+    let dmg = force * damageMult;
+    this.life -= force >= minDamage ? force : 0;
   }
 }

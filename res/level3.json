@@ -1,5 +1,5 @@
 {
-  "ammu" : ["little", "big", "big", "heavy"],
+  "ammu" : ["big", "heavy", "heavy", "heavy"],
   "entities" : [
     {
       "body" : {
@@ -16,13 +16,12 @@
       },
 
       "attributes" : {
-        "name" : "Rectangle pour test gravité",
+        "name" : "cochon1",
         "life" : 10,
         "friable" : true,
         "isEnnemy" : true
       }
     },
-
     {
       "body" : {
         "mass" : 10,
@@ -38,13 +37,54 @@
       },
 
       "attributes" : {
-        "name" : "Rectangle pour test gravité",
+        "name" : "cochon2",
         "life" : 10,
         "friable" : true,
         "isEnnemy" : true
       }
     },
+    {
+      "body" : {
+        "mass" : 10,
+        "pos"  : [1200, 970],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : false,
+        "dim"    : [100, 100]
+      },
 
+      "sprite" : {
+        "img_uri" : "./res/pig_96x104.png",
+        "color"   : [255, 218, 185]
+      },
+
+      "attributes" : {
+        "name" : "cochon3",
+        "life" : 10,
+        "friable" : true,
+        "isEnnemy" : true
+      }
+    },
+    {
+      "body" : {
+        "mass" : 10,
+        "pos"  : [1200, 750],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : false,
+        "dim"    : [100, 100]
+      },
+
+      "sprite" : {
+        "img_uri" : "./res/pig_96x104.png",
+        "color"   : [255, 218, 185]
+      },
+
+      "attributes" : {
+        "name" : "cochon4",
+        "life" : 10,
+        "friable" : true,
+        "isEnnemy" : true
+      }
+    },
     {
       "body" : {
         "mass" : null,
@@ -66,7 +106,6 @@
         "isEnnemy" : false
       }
     },
-
     {
       "body" : {
         "mass" : null,
@@ -88,7 +127,6 @@
         "isEnnemy" : false
       }
     },
-
     {
       "body" : {
         "mass" : null,
@@ -110,7 +148,6 @@
         "isEnnemy" : false
       }
     },
-
     {
       "body" : {
         "mass" : null,
@@ -135,7 +172,7 @@
     {
       "body" : {
         "mass" : 100,
-        "pos"  : [1100, 870],
+        "pos"  : [1500, 870],
         "vel"  : [0.0, 0.0],
         "isStatic" : false,
         "dim"    : [50, 200]
@@ -180,6 +217,69 @@
         "pos"  : [800, 850],
         "vel"  : [0.0, 0.0],
         "isStatic" : false,
+        "dim"    : [750, 20]
+      },
+
+      "sprite" : {
+        "img_uri" : "./res/wood_1.png",
+        "color"   : [200, 150, 0]
+      },
+
+      "attributes" : {
+        "name" : "plancher1",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    },
+    {
+      "body" : {
+        "mass" : 100,
+        "pos"  : [1400, 650],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : false,
+        "dim"    : [50, 200]
+      },
+
+      "sprite" : {
+        "img_uri" : "./res/wall_1.png",
+        "color"   : [200, 150, 0]
+      },
+
+      "attributes" : {
+        "name" : "Muraille3",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    },
+    {
+      "body" : {
+        "mass" : 100,
+        "pos"  : [1100, 650],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : false,
+        "dim"    : [50, 200]
+      },
+
+      "sprite" : {
+        "img_uri" : "./res/wall_1.png",
+        "color"   : [200, 150, 0]
+      },
+
+      "attributes" : {
+        "name" : "Muraille4",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    },
+    {
+      "body" : {
+        "mass" : 100,
+        "pos"  : [1100, 630],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : false,
         "dim"    : [350, 20]
       },
 
@@ -189,7 +289,7 @@
       },
 
       "attributes" : {
-        "name" : "Muraille3",
+        "name" : "plancher2",
         "life" : 10,
         "friable" : false,
         "isEnnemy" : false

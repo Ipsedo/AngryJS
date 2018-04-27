@@ -195,7 +195,35 @@
       },
 
       "attributes" : {
-        "name" : "Muraille",
+        "name" : "Muraille1",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    },
+    {
+      "body" : {
+        "infos" : {
+          "mass" : 100,
+          "pos"  : [800, 1020],
+          "vel"  : [0.0, 0.0],
+          "isStatic" : false
+        },
+
+        "additional_info" : {
+          "isRect" : true,
+          "rad"    : null,
+          "dim"    : [50, 50]
+        }
+      },
+
+      "sprite" : {
+        "img_uri" : null,
+        "color"   : [200, 150, 0]
+      },
+
+      "attributes" : {
+        "name" : "Muraille2",
         "life" : 10,
         "friable" : false,
         "isEnnemy" : false

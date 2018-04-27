@@ -5,7 +5,7 @@ class Game {
   static get NbIterPerFrame () { return Math.trunc(1000. / 60.); }
 
   // Passer width et height du canvas + context ou juste canvas ?
-  constructor(context, canvas, levelPath, onLose = (() => {})) {
+  constructor(context, canvas, onWin = (() => {}), onLose = (() => {})) {
     this.context = context;
     this.windowW = canvas.width;
     this.windowH = canvas.height;
@@ -13,24 +13,26 @@ class Game {
     this.entities = [];
     this.explosion = [];
 
+    this.onWin = onWin;
     this.onLose = onLose;
 
     this.firstFrame = true;
     this.isPaused = true;
 
-    this.levelPath = levelPath;
+    this.controls = new Controls(canvas, context, this.controlsCallBack.bind(this));
+  }
 
-    /**
-     * loading du level
-     */
+  /**
+   * loading du level
+   */
+  loadLevel(levelPath) {
+    this.levelPath = levelPath;
     let levelLoader = new LevelLoader(this.context);
     let that = this;
     levelLoader.load(this.levelPath, (e) => {
       that.entities = e;
       that.render();
     });
-
-    this.controls = new Controls(canvas, context, this.controlsCallBack.bind(this));
   }
 
   win() {
@@ -111,6 +113,7 @@ class Game {
    * 1) Supprimer les entités mortes
    * 2) Animer le jeu
    * 3) Dessiner le jeu
+   * 4) Verifier si on a gagné
    */
   update() {
     if (!this.isPaused) {
@@ -121,9 +124,11 @@ class Game {
       if (this.entities.filter(e => e.isEnnemy).length === 0) {
         setTimeout(() => {
           this.win();
+          this.onWin();
           this.isPaused = true;
         }, 500);
       }
+
       requestAnimationFrame(this.update.bind(this));
     }
   }
@@ -143,12 +148,15 @@ class Game {
 window.addEventListener("load", () => {
   let c = document.getElementById("main");
   let ctx = c.getContext("2d");
-  let g = new Game(ctx, c,
-    "./res/level0.json", () => alert("perdu !"));
 
   let start_button = document.getElementById("play_pause");
-  start_button.addEventListener("click", (e) => {
 
+  let g = new Game(ctx, c,
+    () => start_button.innerText = "Play",
+    () => alert("perdu !"));
+  g.loadLevel("./res/level0.json");
+
+  start_button.addEventListener("click", (e) => {
     if (start_button.innerText === "Play") {
       start_button.innerText = "Pause";
       if (g.firstFrame) g.start();
@@ -172,5 +180,15 @@ window.addEventListener("load", () => {
       g.pause();
     }
   });
+
+  /**
+   * Récupération de l'element input pour choisir son level
+   */
+  let levelChooser = document.getElementById("level_chooser");
+  levelChooser.addEventListener("input", (e) => {
+    g.pause();
+    start_button.innerText = "Play";
+    g.loadLevel("./res/level" + (levelChooser.value - 1) + ".json"); // -1 car indice json commence par 0
+  })
 });
 

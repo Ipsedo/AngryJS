@@ -173,35 +173,6 @@
         "isEnnemy" : false
       }
     },
-
-    {
-      "body" : {
-        "infos" : {
-          "mass" : 7e10,
-          "pos"  : [200, 200],
-          "vel"  : [0.0, 0.0],
-          "isStatic" : true
-        },
-
-        "additional_info" : {
-          "isRect" : true,
-          "rad"    : null,
-          "dim"    : [50, 50]
-        }
-      },
-
-      "sprite" : {
-        "img_uri" : null,
-        "color"   : [0, 255, 0]
-      },
-
-      "attributes" : {
-        "name" : "Point de gravité",
-        "life" : 10,
-        "friable" : false,
-        "isEnnemy" : false
-      }
-    },
     {
       "body" : {
         "infos" : {
@@ -232,4 +203,3 @@
     }
   ]
 }
-

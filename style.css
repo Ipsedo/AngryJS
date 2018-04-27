@@ -16,3 +16,13 @@ button, input {
     font-size: 3vmax;
     background-color: #CCCCCC;
 }
+
+div {
+    text-align: end;
+    display: inline-block;
+    width: 25vw;
+    height: 8vw;
+    max-height: 8vh;
+    max-width: 24vh;
+    font-size: 3vmax;
+}

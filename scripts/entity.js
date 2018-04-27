@@ -8,7 +8,7 @@
  */
 class Entity {
 
-  constructor(body, sprite, life, isFriable, onDead = () => {}) {
+  constructor(body, sprite, life, isFriable, isEnnemy) {
     this.body = body;
 
     if (isFriable) {
@@ -20,15 +20,11 @@ class Entity {
 
     this.sprite = sprite;
     this.life = life;
-    this.onDead = onDead;
+    this.isEnnemy = isEnnemy;
   }
 
   isAlive() {
-    let l = this.life > 0;
-    if (!l) {
-      this.onDead();
-    }
-    return l;
+    return this.life > 0;
   }
 
   hit(force) {

@@ -43,8 +43,11 @@ class LevelLoader {
    * // Niveau de jeu
    *
    * level = {
+   *  ammu = [String, ..., String],
    *  entities = [entity, ..., entity]
    * }
+   *
+   * ammu représentant les munitions, à savoir "little", "big" et "heavy"
    *
    */
 
@@ -116,6 +119,11 @@ class LevelLoader {
   parseJSON(JSONstr) {
     let json = JSON.parse(JSONstr);
     let entity_arr = json.entities;
+    let ammu = json.ammu;
+    if (ammu.filter(a => a !== "little" && a !== "big" && a !== "heavy").length !== 0) {
+      alert("Invalid ammunation(s) !");
+      return;
+    }
     if (!(entity_arr instanceof Array)) {
       alert("Unrecognized JSON !");
       return;
@@ -126,6 +134,10 @@ class LevelLoader {
       let new_e = this.parseEntity(e);
       entities.push(new_e);
     });
-    return entities;
+
+    return {
+      entities : entities,
+      ammu : ammu
+    };
   }
 }

@@ -1,4 +1,5 @@
 const dt = 1.;
+const nbLevel = 3;
 
 class Game {
 
@@ -55,7 +56,7 @@ class Game {
     let that = this;
     levelLoader.load(this.levelPath, (e) => {
       that.entities = e;
-      that.render();
+      requestAnimationFrame(that.render.bind(that));
     });
   }
 
@@ -188,7 +189,9 @@ window.addEventListener("load", () => {
   levelChooser.addEventListener("input", (e) => {
     g.pause();
     start_button.innerText = "Play";
-    g.loadLevel("./res/level" + (levelChooser.value - 1) + ".json"); // -1 car indice json commence par 0
+    let id = (levelChooser.value - 1);
+    if (id >= 0 && id < nbLevel)
+      g.loadLevel("./res/level" + id + ".json"); // -1 car indice json commence par 0
   })
 });
 

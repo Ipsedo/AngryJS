@@ -32,7 +32,7 @@ class LevelLoader {
    *
    * // Graphisme
    *
-   * Soit une image si image != null, soit un cercle ou rectangle (color != null) :
+   * Soit une image si image != null, soit un cercle ou rectangle :
    * sprite = {
    *  img_uri : string / null,
    *  color   : null   / [Number, Number, Number]
@@ -51,7 +51,11 @@ class LevelLoader {
    *  attributes : attributes
    * }
    *
-   * entities = [entity, ..., entity]
+   * // Niveau de jeu
+   *
+   * level = {
+   *  entities = [entity, ..., entity]
+   * }
    *
    */
 
@@ -141,11 +145,14 @@ class LevelLoader {
     let isFriable = entityJSON.attributes.friable;
     let life = entityJSON.attributes.life;
 
-    return new Entity(body, sprite, life, isFriable);
+    let isEnnemy = entityJSON.attributes.isEnnemy;
+
+    return new Entity(body, sprite, life, isFriable, isEnnemy);
   }
 
   parseJSON(JSONstr) {
-    let entity_arr = JSON.parse(JSONstr);
+    let json = JSON.parse(JSONstr);
+    let entity_arr = json.entities;
     if (!(entity_arr instanceof Array)) {
       alert("Unrecognized JSON !");
       return;

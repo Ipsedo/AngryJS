@@ -1,5 +1,5 @@
 const dt = 1.;
-const nbLevel = 3;
+const nbLevel = 4;
 
 class Game {
 
@@ -20,7 +20,31 @@ class Game {
     this.firstFrame = true;
     this.isPaused = true;
 
-    this.controls = new Controls(canvas, context, this.controlsCallBack.bind(this));
+    this.ammuImg = new Map();
+
+    let tmpImg1 = new Image();
+    tmpImg1.src = "./res/bird_1.png";
+    tmpImg1.onload = () => {
+      this.ammuImg.set("little", tmpImg1);
+      this.drawAmmu();
+    };
+
+    let tmpImg2 = new Image();
+    tmpImg2.src = "./res/bird_2.png";
+    tmpImg2.onload = () => {
+      this.ammuImg.set("big", tmpImg2);
+      this.drawAmmu();
+    };
+
+    let tmpImg3 = new Image();
+    tmpImg3.src = "./res/bird_3.png";
+    tmpImg3.onload = () => {
+      this.ammuImg.set("heavy", tmpImg3);
+      this.drawAmmu();
+    };
+
+    this.controls = new Controls(canvas,
+      context, this.controlsCallBack.bind(this));
   }
 
   /**
@@ -31,7 +55,8 @@ class Game {
     let levelLoader = new LevelLoader(this.context);
     let that = this;
     levelLoader.load(this.levelPath, (e) => {
-      that.entities = e;
+      that.entities = e.entities;
+      that.ammu = e.ammu;
       that.render();
     });
   }
@@ -43,21 +68,31 @@ class Game {
   }
 
   controlsCallBack(fst, vec) {
-    if (!this.isPaused) {
-      let rect = new Rectangle(3, fst, Vector.fill(50), vec, false);
-      let sprite = new ImageRectSprite(this.context,rect, "./res/bird_1.png", [0, 255, 0]);
-      let ball = new Entity(rect, sprite, 10, true);
+    if (!this.isPaused && this.ammu.length > 0) {
+      let launchType = this.ammu.shift();
+      let mass, dim, img, color, life;
+      switch (launchType) {
+        case "little": mass = 3; dim = Vector.fill(50); life = 1;
+          img = "./res/bird_1.png"; color = [0, 255, 0];
+          break;
+        case "big":
+          mass = 4; dim = Vector.fill(150); life = 2;
+          img = "./res/bird_2.png"; color = [0, 0, 255];
+          break;
+        case "heavy":
+          mass = 15; dim = Vector.fill(100); life = 7;
+          img = "./res/bird_3.png"; color = [25, 25, 25];
+          break;
+      }
+      let rect = new Rectangle(mass, fst, dim, vec, false);
+      let sprite = new ImageRectSprite(this.context, rect, img, color);
+      let ball = new Entity(rect, sprite, life, true, false, true);
       this.entities.push(ball);
     }
   }
 
   reloadLevel() {
-    let levelLoader = new LevelLoader(this.context);
-    let that = this;
-    levelLoader.load(this.levelPath, (e) => {
-      that.entities = e;
-      requestAnimationFrame(that.render.bind(that));
-    });
+    this.loadLevel(this.levelPath);
   }
 
   start() {
@@ -103,6 +138,20 @@ class Game {
     this.explosion.forEach((e) => e.update());
   }
 
+  checkVictory() {
+    if (this.entities.filter(e => e.isEnnemy).length === 0) {
+      setTimeout(() => {
+        this.win();
+        this.onWin();
+        this.isPaused = true;
+      }, 500);
+    }
+  }
+
+  checkLose() {
+    // TODO verifier lorsqu'on a perdu
+  }
+
   /**
    * 1) Supprimer les entités mortes
    * 2) Animer le jeu
@@ -114,17 +163,25 @@ class Game {
       this.removeDeadEntity();
       this.anime();
       this.render();
-
-      if (this.entities.filter(e => e.isEnnemy).length === 0) {
-        setTimeout(() => {
-          this.win();
-          this.onWin();
-          this.isPaused = true;
-        }, 500);
-      }
+      this.checkLose();
+      this.checkVictory();
 
       requestAnimationFrame(this.update.bind(this));
     }
+  }
+
+  /**
+   * Afficher les munitions restantes
+   */
+  drawAmmu() {
+    let off = 20;
+    this.ammu.forEach((a) => {
+      this.context.fillStyle = "rgb(100, 100, 100)";
+      this.context.fillRect(off, 20, 50, 50);
+      if (this.ammuImg.get(a))
+      this.context.drawImage(this.ammuImg.get(a), off + 2, 20 + 2, 46, 46);
+      off += 50;
+    });
   }
 
   /**
@@ -136,6 +193,7 @@ class Game {
     this.entities.forEach((e) => e.sprite.draw());
     this.explosion.forEach((e) => e.draw());
     this.controls.draw();
+    this.drawAmmu();
   }
 }
 
@@ -150,6 +208,9 @@ window.addEventListener("load", () => {
     () => alert("perdu !"));
   g.loadLevel("./res/level0.json");
 
+  /**
+   * Définition de l'action play ou pause du niveau
+   */
   start_button.addEventListener("click", (e) => {
     if (start_button.innerText === "Play") {
       start_button.innerText = "Pause";
@@ -161,6 +222,9 @@ window.addEventListener("load", () => {
     }
   });
 
+  /**
+   * Definition de l'action reset du niveau
+   */
   let reset_button = document.getElementById("reset");
   reset_button.addEventListener("click", (e) => {
     g.pause();
@@ -168,6 +232,9 @@ window.addEventListener("load", () => {
     g.reloadLevel();
   });
 
+  /**
+   * Lorsque l'onglet ou la page deviennent cachés
+   */
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
       start_button.innerText = "Play";
@@ -183,7 +250,7 @@ window.addEventListener("load", () => {
     g.pause();
     start_button.innerText = "Play";
     let id = (levelChooser.value - 1);
-    if (id >= 0 && id < nbLevel)
+    if (id >= 0 && id < nbLevel && Number.isInteger(id))
       g.loadLevel("./res/level" + id + ".json"); // -1 car indice json commence par 0
   })
 });

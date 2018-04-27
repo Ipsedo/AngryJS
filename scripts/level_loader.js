@@ -21,10 +21,10 @@ class LevelLoader {
    *
    * // Graphisme
    *
-   * Soit une image si image != null, soit un cercle ou rectangle :
+   * Soit une image si image != null, un rectangle sinon :
    * sprite = {
    *  img_uri : string / null,
-   *  color   : null   / [Number, Number, Number]
+   *  color   : [Number, Number, Number]
    * }
    *
    * // Entité

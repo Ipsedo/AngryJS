@@ -6,7 +6,7 @@ canvas {
     background-color: #AAAAAA;
 }
 
-button {
+button, input {
     display: inline-block;
     width: 25vw;
     height: 8vw;

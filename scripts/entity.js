@@ -11,7 +11,7 @@ const minDamage = .2;
  */
 class Entity {
 
-  constructor(body, sprite, life, isFriable, isEnnemy) {
+  constructor(body, sprite, life, isFriable, isEnnemy, isBall = false) {
     this.body = body;
 
     if (isFriable) {
@@ -24,6 +24,7 @@ class Entity {
     this.sprite = sprite;
     this.life = life;
     this.isEnnemy = isEnnemy;
+    this.isBall = isBall;
   }
 
   isAlive() { return this.life > 0; }

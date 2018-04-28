@@ -70,22 +70,22 @@ class Game {
   controlsCallBack(fst, vec) {
     if (!this.isPaused && this.ammu.length > 0) {
       let launchType = this.ammu.shift();
-      let mass, dim, img, color, life;
+      let mass, dim, life, sprite;
       switch (launchType) {
         case "little": mass = 3; dim = Vector.fill(50); life = 1;
-          img = "./res/bird_1.png"; color = [0, 255, 0];
+          sprite = FramesRectSprite.Bird_1;
           break;
         case "big":
           mass = 4; dim = Vector.fill(150); life = 2;
-          img = "./res/bird_2.png"; color = [0, 0, 255];
+          sprite = FramesRectSprite.Bird_2;
           break;
         case "heavy":
           mass = 15; dim = Vector.fill(100); life = 7;
-          img = "./res/bird_3.png"; color = [25, 25, 25];
+          sprite = FramesRectSprite.Bird_3;
           break;
       }
       let rect = new Rectangle(mass, fst, dim, vec, false);
-      let sprite = new ImageRectSprite(this.context, rect, img, color);
+      sprite = sprite(this.context, rect);//new ImageRectSprite(this.context, rect, img, color);
       let ball = new Entity(rect, sprite, life, true, false, true);
       this.entities.push(ball);
     }

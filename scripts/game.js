@@ -23,21 +23,21 @@ class Game {
     this.ammuImg = new Map();
 
     let tmpImg1 = new Image();
-    tmpImg1.src = "./res/bird_1.png";
+    tmpImg1.src = "./res/bird_1/frame-1.png";
     tmpImg1.onload = () => {
       this.ammuImg.set("little", tmpImg1);
       this.drawAmmu();
     };
 
     let tmpImg2 = new Image();
-    tmpImg2.src = "./res/bird_2.png";
+    tmpImg2.src = "./res/bird_2/frame-1.png";
     tmpImg2.onload = () => {
       this.ammuImg.set("big", tmpImg2);
       this.drawAmmu();
     };
 
     let tmpImg3 = new Image();
-    tmpImg3.src = "./res/bird_3.png";
+    tmpImg3.src = "./res/bird_3/frame-1.png";
     tmpImg3.onload = () => {
       this.ammuImg.set("heavy", tmpImg3);
       this.drawAmmu();
@@ -206,7 +206,7 @@ window.addEventListener("load", () => {
   let g = new Game(ctx, c,
     () => start_button.innerText = "Play",
     () => alert("perdu !"));
-  g.loadLevel("./res/level0.json");
+  g.loadLevel("./res/levels/level0.json");
 
   /**
    * Définition de l'action play ou pause du niveau
@@ -251,7 +251,7 @@ window.addEventListener("load", () => {
     start_button.innerText = "Play";
     let id = (levelChooser.value - 1);
     if (id >= 0 && id < nbLevel && Number.isInteger(id))
-      g.loadLevel("./res/level" + id + ".json"); // -1 car indice json commence par 0
+      g.loadLevel("./res/levels/level" + id + ".json"); // -1 car indice json commence par 0
   })
 });
 

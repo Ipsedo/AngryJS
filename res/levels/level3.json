@@ -1,0 +1,299 @@
+{
+  "ammu" : ["big", "heavy", "heavy", "heavy"],
+  "entities" : [
+    {
+      "body" : {
+        "mass" : 10,
+        "pos"  : [900, 750],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : false,
+        "dim"    : [100, 100]
+      },
+
+      "sprite" : {
+        "img_uri" : "./res/pig_96x104.png",
+        "color"   : [255, 218, 185]
+      },
+
+      "attributes" : {
+        "name" : "cochon1",
+        "life" : 10,
+        "friable" : true,
+        "isEnnemy" : true
+      }
+    },
+    {
+      "body" : {
+        "mass" : 10,
+        "pos"  : [900, 970],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : false,
+        "dim"    : [100, 100]
+      },
+
+      "sprite" : {
+        "img_uri" : "./res/pig_96x104.png",
+        "color"   : [255, 218, 185]
+      },
+
+      "attributes" : {
+        "name" : "cochon2",
+        "life" : 10,
+        "friable" : true,
+        "isEnnemy" : true
+      }
+    },
+    {
+      "body" : {
+        "mass" : 10,
+        "pos"  : [1200, 970],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : false,
+        "dim"    : [100, 100]
+      },
+
+      "sprite" : {
+        "img_uri" : "./res/pig_96x104.png",
+        "color"   : [255, 218, 185]
+      },
+
+      "attributes" : {
+        "name" : "cochon3",
+        "life" : 10,
+        "friable" : true,
+        "isEnnemy" : true
+      }
+    },
+    {
+      "body" : {
+        "mass" : 10,
+        "pos"  : [1200, 750],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : false,
+        "dim"    : [100, 100]
+      },
+
+      "sprite" : {
+        "img_uri" : "./res/pig_96x104.png",
+        "color"   : [255, 218, 185]
+      },
+
+      "attributes" : {
+        "name" : "cochon4",
+        "life" : 10,
+        "friable" : true,
+        "isEnnemy" : true
+      }
+    },
+    {
+      "body" : {
+        "mass" : null,
+        "pos"  : [0, -10],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : true,
+        "dim"    : [1920, 20]
+      },
+
+      "sprite" : {
+        "img_uri" : null,
+        "color"   : [0, 0, 0]
+      },
+
+      "attributes" : {
+        "name" : "Mur haut",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    },
+    {
+      "body" : {
+        "mass" : null,
+        "pos"  : [0, 1070],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : true,
+        "dim"    : [1920, 20]
+      },
+
+      "sprite" : {
+        "img_uri" : null,
+        "color"   : [0, 0, 0]
+      },
+
+      "attributes" : {
+        "name" : "Mur bas",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    },
+    {
+      "body" : {
+        "mass" : null,
+        "pos"  : [-10, 10],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : true,
+        "dim"    : [20, 1060]
+      },
+
+      "sprite" : {
+        "img_uri" : null,
+        "color"   : [0, 0, 0]
+      },
+
+      "attributes" : {
+        "name" : "Mur gauche",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    },
+    {
+      "body" : {
+        "mass" : null,
+        "pos"  : [1910, 10],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : true,
+        "dim"    : [20, 1060]
+      },
+
+      "sprite" : {
+        "img_uri" : null,
+        "color"   : [0, 0, 0]
+      },
+
+      "attributes" : {
+        "name" : "Mur droit",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    },
+    {
+      "body" : {
+        "mass" : 100,
+        "pos"  : [1500, 870],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : false,
+        "dim"    : [50, 200]
+      },
+
+      "sprite" : {
+        "img_uri" : "./res/wall_1.png",
+        "color"   : [200, 150, 0]
+      },
+
+      "attributes" : {
+        "name" : "Muraille1",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    },
+    {
+      "body" : {
+        "mass" : 100,
+        "pos"  : [800, 870],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : false,
+        "dim"    : [50, 200]
+      },
+
+      "sprite" : {
+        "img_uri" : "./res/wall_1.png",
+        "color"   : [200, 150, 0]
+      },
+
+      "attributes" : {
+        "name" : "Muraille2",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    },
+    {
+      "body" : {
+        "mass" : 100,
+        "pos"  : [800, 850],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : false,
+        "dim"    : [750, 20]
+      },
+
+      "sprite" : {
+        "img_uri" : "./res/wood_1.png",
+        "color"   : [200, 150, 0]
+      },
+
+      "attributes" : {
+        "name" : "plancher1",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    },
+    {
+      "body" : {
+        "mass" : 100,
+        "pos"  : [1400, 650],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : false,
+        "dim"    : [50, 200]
+      },
+
+      "sprite" : {
+        "img_uri" : "./res/wall_1.png",
+        "color"   : [200, 150, 0]
+      },
+
+      "attributes" : {
+        "name" : "Muraille3",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    },
+    {
+      "body" : {
+        "mass" : 100,
+        "pos"  : [1100, 650],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : false,
+        "dim"    : [50, 200]
+      },
+
+      "sprite" : {
+        "img_uri" : "./res/wall_1.png",
+        "color"   : [200, 150, 0]
+      },
+
+      "attributes" : {
+        "name" : "Muraille4",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    },
+    {
+      "body" : {
+        "mass" : 100,
+        "pos"  : [1100, 630],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : false,
+        "dim"    : [350, 20]
+      },
+
+      "sprite" : {
+        "img_uri" : "./res/wood_1.png",
+        "color"   : [200, 150, 0]
+      },
+
+      "attributes" : {
+        "name" : "plancher2",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    }
+  ]
+}

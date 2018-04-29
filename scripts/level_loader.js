@@ -30,8 +30,10 @@ class LevelLoader {
    * // Entité
    *
    * attributes = {
+   *  name : string,
    *  life   : Number,
-   *  friable : bool
+   *  friable : bool,
+   *  isEnnemy : bool
    * }
    *
    * entity = {

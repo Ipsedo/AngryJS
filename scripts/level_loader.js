@@ -72,11 +72,12 @@ class LevelLoader {
   }
 
   static parseBody(body) {
-    if (!body.mass
-      || !body.pos
-      || !body.vel
-      || !body.dim
-      || !body.isStatic) {
+    if (!body.hasOwnProperty("mass")
+      || !body.hasOwnProperty("pos")
+      || !body.hasOwnProperty("vel")
+      || !body.hasOwnProperty("dim")
+      || !body.hasOwnProperty("isStatic")) {
+      console.log(body);
       alert("Unrecognized body !");
       return;
     }
@@ -96,14 +97,13 @@ class LevelLoader {
      * JSON est bien composée
      */
     if (!entityJSON.body
-        || !entityJSON.sprite
-        || !entityJSON.sprite.img_uri
-        || !entityJSON.sprite.color
-        || !entityJSON.attributes
-        || !entityJSON.attributes
-        || !entityJSON.attributes.friable
-        || !entityJSON.attributes.life
-        || !entityJSON.attributes.isEnnemy) {
+        || !entityJSON.hasOwnProperty("sprite")
+        || !entityJSON.sprite.hasOwnProperty("img_uri")
+        || !entityJSON.sprite.hasOwnProperty("color")
+        || !entityJSON.hasOwnProperty("attributes")
+        || !entityJSON.attributes.hasOwnProperty("friable")
+        || !entityJSON.attributes.hasOwnProperty("life")
+        || !entityJSON.attributes.hasOwnProperty("isEnnemy")) {
       alert("Unrecognized entity !");
       return;
     }
@@ -130,8 +130,8 @@ class LevelLoader {
   parseJSON(JSONstr) {
     let json = JSON.parse(JSONstr);
 
-    if (!json.entities
-        || !json.ammu) {
+    if (!json.hasOwnProperty("entities")
+        || !json.hasOwnProperty("ammu")) {
       alert("Unrecognized level !");
       return;
     }

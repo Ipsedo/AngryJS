@@ -5,7 +5,7 @@ class LevelLoader {
   }
 
   /**
-   * Idée syntaxe :
+   * Idée structure :
    *
    * // Physique
    *
@@ -21,7 +21,7 @@ class LevelLoader {
    *
    * // Graphisme
    *
-   * Soit une image si image != null, un rectangle sinon :
+   * Soit une image si image != null, soit un rectangle sinon :
    * sprite = {
    *  img_uri : string / null,
    *  color   : [Number, Number, Number]
@@ -64,16 +64,23 @@ class LevelLoader {
         alert(levelFileName + " not found !");
         return;
       }
-      let entities = that.parseJSON(xhr.responseText);
-      onLoad(entities);
+      let level = that.parseJSON(xhr.responseText);
+      onLoad(level);
     });
     xhr.open("GET", levelFileName);
     xhr.send();
   }
 
   static parseBody(body) {
+    if (!body.mass
+      || !body.pos
+      || !body.vel
+      || !body.dim
+      || !body.isStatic) {
+      alert("Unrecognized body !");
+      return;
+    }
 
-    //TODO tester si les champs de infos sont bien définis
     let mass = body.mass === null ? Infinity : body.mass; // On peut pas mettre Infinity dans JSON :,(
     let pos = new Vector(body.pos[0], body.pos[1]);
     let vel = new Vector(body.vel[0], body.vel[1]);
@@ -84,18 +91,28 @@ class LevelLoader {
   }
 
   parseEntity(entityJSON) {
-    if (!entityJSON.hasOwnProperty("body")) {
+    /**
+     * On check qu'une entité issue du
+     * JSON est bien composée
+     */
+    if (!entityJSON.body
+        || !entityJSON.sprite
+        || !entityJSON.sprite.img_uri
+        || !entityJSON.sprite.color
+        || !entityJSON.attributes
+        || !entityJSON.attributes
+        || !entityJSON.attributes.friable
+        || !entityJSON.attributes.life
+        || !entityJSON.attributes.isEnnemy) {
       alert("Unrecognized entity !");
       return;
     }
     let body = LevelLoader.parseBody(entityJSON.body);
-
-    if (!entityJSON.hasOwnProperty("sprite")) {
-      alert("Unrecognized entity !");
-      return;
-    }
     let sprite;
-    //TODO tester si color et image sont bien definis
+    /**
+     * Si img_uri === null -> le sprite est un rectangle,
+     * une image sinon
+     */
     if (entityJSON.sprite.img_uri !== null) {
       let uri = entityJSON.sprite.img_uri;
       sprite = new ImageRectSprite(this.context, body, uri, entityJSON.sprite.color);
@@ -103,14 +120,8 @@ class LevelLoader {
       sprite = new RectSprite(this.context, body, entityJSON.sprite.color);
     }
 
-    if (!entityJSON.hasOwnProperty("attributes")) {
-      alert("Unrecognized entity !");
-      return;
-    }
-
     let isFriable = entityJSON.attributes.friable;
     let life = entityJSON.attributes.life;
-
     let isEnnemy = entityJSON.attributes.isEnnemy;
 
     return new Entity(body, sprite, life, isFriable, isEnnemy);
@@ -118,12 +129,24 @@ class LevelLoader {
 
   parseJSON(JSONstr) {
     let json = JSON.parse(JSONstr);
+
+    if (!json.entities
+        || !json.ammu) {
+      alert("Unrecognized level !");
+      return;
+    }
+
     let entity_arr = json.entities;
     let ammu = json.ammu;
+    /**
+     * On vérifie que les noms de muntitions sont
+     * biens les bons
+     */
     if (ammu.filter(a => a !== "little" && a !== "big" && a !== "heavy").length !== 0) {
       alert("Invalid ammunation(s) !");
       return;
     }
+
     if (!(entity_arr instanceof Array)) {
       alert("Unrecognized JSON !");
       return;

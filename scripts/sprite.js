@@ -1,3 +1,8 @@
+/**
+ * Base d'un sprite :
+ * - le context 2d
+ * - une couleur
+ */
 class Sprite {
 
   constructor(context, color) {
@@ -13,6 +18,9 @@ class Sprite {
   }
 }
 
+/**
+ * Rectangle
+ */
 class RectSprite extends Sprite {
 
   constructor(context, rect, color) {
@@ -27,22 +35,9 @@ class RectSprite extends Sprite {
   }
 }
 
-class CircleSprite extends Sprite {
-
-  constructor(context, circle, color) {
-    super(context, color);
-    this.circle = circle;
-  }
-
-  draw() {
-    super.setColor();
-    this.context.beginPath();
-    this.context.arc(this.circle.pos.x, this.circle.pos.y,
-      this.circle.rad, 0, Math.PI * 2.0);
-    this.context.fill();
-  }
-}
-
+/**
+ * Image rectangulaire
+ */
 class ImageRectSprite extends Sprite {
 
   constructor(context, rect, imageURI, explosionColor) {
@@ -60,12 +55,19 @@ class ImageRectSprite extends Sprite {
   }
 }
 
+/**
+ * Sprite composé de plusieurs frames
+ */
 class FramesRectSprite extends Sprite {
 
   constructor(context, rect, imageURIs, explosionColor) {
     super(context, explosionColor);
     this.rect = rect;
 
+    /**
+     * On crée un tableau de promesses
+     * servant pour charger toutes les images
+     */
     let proms = imageURIs.map(uri =>
       new Promise(function (resolve) {
         let img = new Image();
@@ -76,6 +78,11 @@ class FramesRectSprite extends Sprite {
       })
     );
 
+    /**
+     * Une fois toutes les promsesses finies,
+     * On affecte les images resultantes à notre objet
+     * et le rendu peut commencer
+     */
     let that = this;
     Promise.all(proms).then(function (fulfilled) {
       that.sprites = fulfilled;
@@ -89,6 +96,9 @@ class FramesRectSprite extends Sprite {
 
   draw() {
     if (this.isReady) {
+      /**
+       * On récupère l'indice de la frame
+       */
       let currImg = Math.trunc(this.nbFrame * this.cpt / this.maxFPS);
       this.context.drawImage(this.sprites[currImg],
         this.rect.pos.x, this.rect.pos.y,
@@ -120,6 +130,9 @@ class FramesRectSprite extends Sprite {
   }
 }
 
+/**
+ * Point
+ */
 class Point extends Sprite {
   constructor(context, particule, color) {
     super(context, color);
@@ -133,6 +146,9 @@ class Point extends Sprite {
 
 }
 
+/**
+ * Ligne
+ */
 class Line extends Sprite {
 
   constructor(context, color) {

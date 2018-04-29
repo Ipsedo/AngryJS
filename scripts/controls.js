@@ -10,26 +10,29 @@ class Controls
     this.sprite = new Line(context, [255, 255, 255]);
 
     /**
-     * Call back pour le tir de missile : function(pos, vel)
+     * Listener pour le tir de missile : function(pos, vel)
      */
     this.onFire = onFire;
 
     this.startingDrag = false;
 
+    /**
+     * On annule le tir si la souris sort du canvas
+     */
     this.canvas.addEventListener("mouseout", () => this.startingDrag = false);
 
     this.fstPos = Vector.fill(0.);
     this.launchVec = Vector.fill(0.);
 
     /**
-     * Mouse callBack
+     * Mouse listener
      */
     this.canvas.onmousedown = this.draggingStart.bind(this);
     this.canvas.onmouseup   = this.draggingEnd.bind(this);
     this.canvas.onmousemove = this.dragging.bind(this);
 
     /**
-     * Touch callBack
+     * Touch listener
      */
     this.canvas.addEventListener("touchstart",
       this.draggingStart.bind(this), false);
@@ -46,16 +49,15 @@ class Controls
   {
     let x = 0.;
     let y = 0.;
-    if (e.type === 'mousedown' || e.type === 'mouseup' || e.type === 'mousemove') {
-      // mouseup mousedown mousemove events
+    if (e.type === 'mousedown'
+      || e.type === 'mouseup'
+      || e.type === 'mousemove') {
+      // click
       x = e.clientX;
       y = e.clientY;
-    }
-    else if (   e.type === 'touchstart'
-            ||  e.type === 'touchmove'
-            ||  e.type === 'touchend'
-            )
-    {
+    } else if (e.type === 'touchstart'
+            || e.type === 'touchmove'
+            || e.type === 'touchend') {
       // touch
       x = e.changedTouches[0].pageX;
       y = e.changedTouches[0].pageY;
@@ -70,7 +72,7 @@ class Controls
 
     let finalPos = new Vector (
       this.canvas.width * pos.x / this.canvas.clientWidth,
-      this.canvas.height * pos.y / this.canvas.clientHeight );
+      this.canvas.height * pos.y / this.canvas.clientHeight);
 
 
     // Vecteur de la dernière position à la première

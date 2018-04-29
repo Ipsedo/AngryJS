@@ -5,7 +5,6 @@ class Game {
 
   static get NbIterPerFrame () { return Math.trunc(1000. / 60.); }
 
-  // Passer width et height du canvas + context ou juste canvas ?
   constructor(context, canvas, onWin = (() => {}), onLose = (() => {})) {
     this.context = context;
     this.windowW = canvas.width;
@@ -14,41 +13,57 @@ class Game {
     this.entities = [];
     this.explosion = [];
 
+    /**
+     * Listener pour le début et fin de partie
+     * //TODO quel(s) critère(s) pour perdre une partie
+     */
     this.onWin = onWin;
     this.onLose = onLose;
 
     this.firstFrame = true;
     this.isPaused = true;
 
+    /**
+     * On initialise un Map qui servira pour
+     * dessiner les munitions restantes à titre indicatif
+     */
     this.ammuImg = new Map();
-
+    /**
+     * On ajoute les images pour dessiner
+     * les munitions une fois  celles-ci chargées
+     */
     let tmpImg1 = new Image();
-    tmpImg1.src = "./res/bird_1/frame-1.png";
     tmpImg1.onload = () => {
       this.ammuImg.set("little", tmpImg1);
       this.drawAmmu();
     };
+    tmpImg1.src = "./res/bird_1/frame-1.png";
 
     let tmpImg2 = new Image();
-    tmpImg2.src = "./res/bird_2/frame-1.png";
     tmpImg2.onload = () => {
       this.ammuImg.set("big", tmpImg2);
       this.drawAmmu();
     };
+    tmpImg2.src = "./res/bird_2/frame-1.png";
 
     let tmpImg3 = new Image();
-    tmpImg3.src = "./res/bird_3/frame-1.png";
     tmpImg3.onload = () => {
       this.ammuImg.set("heavy", tmpImg3);
       this.drawAmmu();
     };
+    tmpImg3.src = "./res/bird_3/frame-1.png";
 
+    /**
+     * On crée un objet controle auquel on passe
+     * le listener de tir
+     */
     this.controls = new Controls(canvas,
-      context, this.controlsCallBack.bind(this));
+      context, this.controlsListener.bind(this));
   }
 
   /**
    * loading du level
+   * Un level = une liste d'entité et de munitions disponibles
    */
   loadLevel(levelPath) {
     this.levelPath = levelPath;
@@ -67,9 +82,28 @@ class Game {
     this.context.fillText("Game Done !", this.windowW / 8, this.windowH / 2);
   }
 
-  controlsCallBack(fst, vec) {
+  /**
+   *
+   * @param fst position du début du drag an drop
+   * @param vec vecteur de tir
+   */
+  controlsListener(fst, vec) {
+    /**
+     * Tir possible uniquement s'il reste des munitions
+     * et que le jeu n'est pas en pause
+     */
     if (!this.isPaused && this.ammu.length > 0) {
+      /**
+       * On récupère la munition courrante
+       */
       let launchType = this.ammu.shift();
+
+      /**
+       * Trois type de munitions :
+       * - petite
+       * - grande
+       * - lourde
+       */
       let mass, dim, life, sprite;
       switch (launchType) {
         case "little": mass = 3; dim = Vector.fill(50); life = 1;
@@ -85,8 +119,8 @@ class Game {
           break;
       }
       let rect = new Rectangle(mass, fst, dim, vec, false);
-      sprite = sprite(this.context, rect);//new ImageRectSprite(this.context, rect, img, color);
-      let ball = new Entity(rect, sprite, life, true, false, true);
+      sprite = sprite(this.context, rect);
+      let ball = new Entity(rect, sprite, life, true, false);
       this.entities.push(ball);
     }
   }
@@ -118,9 +152,13 @@ class Game {
     let that = this;
     this.entities = this.entities.filter((e) => {
       if (!e.isAlive()) {
+        /**
+         * Le centre de l'explosion correspond au centre
+         * du body de l'entité correspondante
+         */
         let middle = e.body.pos.add(e.body.dim.div(2));
-        // TODO intensité explosion selon masse et taille
-        let ex = new Explosion(that.context, middle, e.sprite.color, 20);
+        let intensity = 20;
+        let ex = new Explosion(that.context, middle, e.sprite.color, intensity);
         that.explosion.push(ex);
       }
       return e.isAlive();
@@ -130,6 +168,8 @@ class Game {
 
   /**
    * Fonction d'animation et de collision
+   * On effectue plusieurs petites itérations
+   * du mouvement pour plus de précision
    */
   anime() {
     for (let i = 0; i < Game.NbIterPerFrame; i++) {
@@ -138,6 +178,11 @@ class Game {
     this.explosion.forEach((e) => e.update());
   }
 
+  /**
+   * On gagne si il n'y a plus d'ennemis
+   * On met un petit délai pour but de finir les
+   * dernières animations
+   */
   checkVictory() {
     if (this.entities.filter(e => e.isEnnemy).length === 0) {
       setTimeout(() => {
@@ -156,7 +201,7 @@ class Game {
    * 1) Supprimer les entités mortes
    * 2) Animer le jeu
    * 3) Dessiner le jeu
-   * 4) Verifier si on a gagné
+   * 4) Verifier si on a perdu ou gagné
    */
   update() {
     if (!this.isPaused) {
@@ -174,13 +219,16 @@ class Game {
    * Afficher les munitions restantes
    */
   drawAmmu() {
-    let off = 20;
+    let offset = 20;
     this.ammu.forEach((a) => {
       this.context.fillStyle = "rgb(100, 100, 100)";
-      this.context.fillRect(off, 20, 50, 50);
+      this.context.fillRect(offset, 20, 50, 50);
+      /**
+       * On test si l'image associée à "a" a bien été chargée
+       */
       if (this.ammuImg.get(a))
-      this.context.drawImage(this.ammuImg.get(a), off + 2, 20 + 2, 46, 46);
-      off += 50;
+        this.context.drawImage(this.ammuImg.get(a), offset + 2, 20 + 2, 46, 46);
+      offset += 50;
     });
   }
 

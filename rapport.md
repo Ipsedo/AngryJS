@@ -65,7 +65,7 @@ Quelques fonctionnalités ont été implémentées pour lisser la physique et ne
 
 ### Le rendu
 
-Le rendu est effectué grâce à `sprite.js`. Cette classe est **complètement dissociée** du moteur physique pour plus de flexibilité. Chaque entité compte donc un sprite et une entité physique (rectangle) et les deux calculs sont effectués de manière totalement indépendante.
+Le rendu est effectué grâce à `sprite.js`. Cette classe est **complètement dissociée** du moteur physique pour plus de flexibilité. Chaque entité compte donc un sprite et une entité physique (rectangle) et les deux calculs sont effectués de manière totalement indépendante. Le sprite faisant appel à l'entité physique pour effectuer le rendu.
 
 `sprite.js` permet donc de regrouper chaque drawable sous une interface commune `Sprite` qui compte `draw()` comme méthode virtuelle et `setColor()` comme méthode héritée. Chaque entité `Sprite` se voit passer le contexte en argument pour qu'elle puisse gérer elle-même son propre rendu.
 

@@ -65,32 +65,19 @@ class FramesRectSprite extends Sprite {
   constructor(context, rect, imageURIs, explosionColor) {
     super(context, explosionColor);
     this.rect = rect;
-    let that = this;
 
-    let prom = new Promise(function (resolve) {
-      let sprites = [];
-      let img = new Image();
-      img.onload = () => {
-        sprites.push(img);
-        resolve(sprites);
-      };
-      img.src = imageURIs.shift();
-    });
-
-    imageURIs.forEach((uri) =>
-      prom = prom.then(function (fulfilled) {
-        return new Promise(function (resolve) {
-          let img = new Image();
-          img.onload = () => {
-            fulfilled.push(img);
-            return resolve(fulfilled);
-          };
-          img.src = uri;
-        });
+    let proms = imageURIs.map(uri =>
+      new Promise(function (resolve) {
+        let img = new Image();
+        img.onload = () => {
+          resolve(img);
+        };
+        img.src = uri;
       })
     );
 
-    prom.then(function (fulfilled) {
+    let that = this;
+    Promise.all(proms).then(function (fulfilled) {
       that.sprites = fulfilled;
       that.nbFrame = fulfilled.length;
       that.isReady = true;

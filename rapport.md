@@ -3,8 +3,8 @@
 - BERRIEN Samuel
 - PENUCHOT Jules
 
-- GitHub : https://github.com/ipsedo/AngryJS
-- Site : https://ipsedo.github.io/AngryJS/
+
+[GitHub](https://github.com/ipsedo/AngryJS/) | [Site](https://ipsedo.github.io/AngryJS/)
 
 ## Présentation générale du projet
 

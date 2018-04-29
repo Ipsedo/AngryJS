@@ -1,0 +1,150 @@
+{
+  "ammu" : ["little", "big", "big", "heavy", "heavy"],
+  "entities" : [
+    {
+      "body" : {
+        "mass" : null,
+        "pos"  : [0, -10],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : true,
+        "dim"    : [1920, 20]
+      },
+
+      "sprite" : {
+        "img_uri" : null,
+        "color"   : [0, 0, 0]
+      },
+
+      "attributes" : {
+        "name" : "Mur haut",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    },
+    {
+      "body" : {
+        "mass" : null,
+        "pos"  : [0, 1070],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : true,
+        "dim"    : [1920, 20]
+      },
+
+      "sprite" : {
+        "img_uri" : null,
+        "color"   : [0, 0, 0]
+      },
+
+      "attributes" : {
+        "name" : "Mur bas",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    },
+    {
+      "body" : {
+        "mass" : null,
+        "pos"  : [-10, 10],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : true,
+        "dim"    : [20, 1060]
+      },
+
+      "sprite" : {
+        "img_uri" : null,
+        "color"   : [0, 0, 0]
+      },
+
+      "attributes" : {
+        "name" : "Mur gauche",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    },
+    {
+      "body" : {
+        "mass" : null,
+        "pos"  : [1910, 10],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : true,
+        "dim"    : [20, 1060]
+      },
+
+      "sprite" : {
+        "img_uri" : null,
+        "color"   : [0, 0, 0]
+      },
+
+      "attributes" : {
+        "name" : "Mur droit",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    },
+    {
+      "body" : {
+        "mass" : null,
+        "pos"  : [1300, 10],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : true,
+        "dim"    : [20, 400]
+      },
+
+      "sprite" : {
+        "img_uri" : null,
+        "color"   : [0, 0, 0]
+      },
+
+      "attributes" : {
+        "name" : "barrière1",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    },
+    {
+      "body" : {
+        "mass" : 7e12,
+        "pos"  : [1600, 100],
+        "vel"  : [0.0, 0.0],
+        "isStatic" : true,
+        "dim"    : [20, 20]
+      },
+
+      "sprite" : {
+        "img_uri" : null,
+        "color"   : [0, 255, 0]
+      },
+
+      "attributes" : {
+        "name" : "point gravité",
+        "life" : 10,
+        "friable" : false,
+        "isEnnemy" : false
+      }
+    },
+    {
+      "body": {
+        "mass": 10,
+        "pos": [1600, 210],
+        "vel": [0.2, 0.1],
+        "isStatic": true,
+        "dim": [100, 100]
+      },
+      "sprite": {
+        "img_uri": "./res/pig_96x104.png",
+        "color": [255, 218, 185]
+      },
+      "attributes": {
+        "name": "cochon1",
+        "life": 2,
+        "friable": true,
+        "isEnnemy": true
+      }
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 const dt = 1.;
-const nbLevel = 4;
+const nbLevel = 6;
 
 class Game {
 
